@@ -1,0 +1,17 @@
+# Ignore editor-specific folders
+.vscode/
+.idea
+
+# Ignore compiled binary files
+**/*.o
+**/*.a
+obj/
+a.out
+fractol
+
+
+# Ignore utils
+checker_OS
+
+# Ignore playground/test files
+playgrounds
