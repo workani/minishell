@@ -15,3 +15,5 @@ checker_OS
 
 # Ignore playground/test files
 playgrounds
+
+*.txt
