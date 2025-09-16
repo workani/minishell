@@ -9,14 +9,15 @@ LIBFT_ARCHIVE := $(LIBFT)/libft.a
 NAME = nanoshell
 
 SRC_DIR = src
+ENV_DIR = $(SRC_DIR)/env
 
 OBJS_DIR = obj
 
-SRCS = $(SRC_DIR)/utils.c $(SRC_DIR)/minishell.c
+SRCS = $(ENV_DIR)/env_lst.c $(SRC_DIR)/utils.c $(SRC_DIR)/minishell.c
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
 
-vpath %.c $(SRC_DIR) $(FRACTAL_DIR) $(UTILS_DIR)
+vpath %.c $(SRC_DIR) $(ENV_DIR)
 
 $(OBJS_DIR)/%.o: %.c
 	mkdir -p $(OBJS_DIR)

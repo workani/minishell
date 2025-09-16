@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/09/16 13:14:32 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/09/16 20:01:19 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,17 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "../libft/libft.h"
 #include "defines.h"
+#include "types.h"
+#include "../libft/libft.h"
 
 char *get_cmd(char *cmd, char **env);
+
+int get_env_lst_size(t_env_lst *head);
+char **env_lst_to_arr(t_env_lst *head);
+void print_env_lst(t_env_lst *head);
+void init_env_lst(t_env_lst **head, char **env);
+
 
 #endif
 
