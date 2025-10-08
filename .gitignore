@@ -7,7 +7,7 @@
 **/*.a
 obj/
 a.out
-fractol
+minishell
 
 
 # Ignore utils
@@ -17,4 +17,3 @@ checker_OS
 playgrounds
 
 *.txt
-nanoshell

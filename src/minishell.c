@@ -6,57 +6,68 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/09/16 20:07:28 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:16:09 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_routine(char **args, t_env_lst *env_lst)
+#include "../include/minishell.h"
+
+void execute(t_node *ast, char **env)
 {
-	char **env_strs = env_lst_to_arr(env_lst);
-	execve(args[0], args, env_strs);
+    char *command;
+
+	command = get_cmd(ast->as.cmd.args[0], env);
+    if (fork() == 0)
+    {
+        execv(command, ast->as.cmd.args);
+    }
+    wait(NULL);
 }
 
-void	parent_routine(void)
+void shell_loop(char **env)
 {
-	wait(NULL);
-}
-char	**init_shell(int argc, char **argv, char **env, t_env_lst **env_lst)
-{
-	char	**args;
-	char	*cmd;
+    char *line; 
+    t_token *tokens;
+    t_node *ast;
 
-	args = malloc(3 * sizeof(char *));
-	cmd = get_cmd(argv[1], env);
-	init_env_lst(env_lst, env);
-	if (argc == 2)
-	{
-		args[0] = cmd;
-		args[1] = NULL;
-	}
-	else if (argc == 3)
-	{
-		args[0] = cmd;
-		args[1] = argv[2];
-		args[2] = NULL;
-	}
-	return (args);
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	pid_t	pid;
-	t_env_lst *env_lst;
-	char	**args;
-
-	env_lst = NULL;
-	args = init_shell(argc, argv, env, &env_lst);
-	pid = fork();
-	if (pid != 0)
-		parent_routine();
-	else
-		child_routine(args, env_lst);
+    while (1)
+    {
+        line = readline("minishell$ ");
+        if(!line)
+        {
+            write(STDOUT_FILENO, "exit\n", 5);
+            break;
+        }
+        if (*line) //to handle empty input
+        {
+            add_history(line);
+            tokens = tokenize(line);
+            if(tokens)
+            {
+                ast = parse (tokens); 
+                if (ast)
+                {
+                    //print_ast(ast, 0);
+                    execute(ast, env);
+                    free_ast(ast); 
+                }
+                free_tokens(tokens);
+            }
+            //stuff to add
+        }
+        free(line); //free memory allocated by readline
+    }
 }
 
+int main (int argc, char **argv, char **env)
+{
+    (void) argc; 
+    (void) argv;
 
+
+    shell_loop(env); 
+
+    return (0);
+} 

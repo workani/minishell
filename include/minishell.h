@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/09/16 20:01:19 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:06:35 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ int get_env_lst_size(t_env_lst *head);
 char **env_lst_to_arr(t_env_lst *head);
 void print_env_lst(t_env_lst *head);
 void init_env_lst(t_env_lst **head, char **env);
+void pwd();
+
+t_token *tokenize (char *input);
+int handle_word(char *input, int i, t_token **token_list);
+int handle_metachar(char *input, int i, t_token **token_list);
+int handle_quotes(char *input, int i, t_token **token_list);
+
+
+t_token *new_token(char *value, t_token_type type);
+void add_token_to_list(t_token **list_head, t_token *new);
+void free_tokens(t_token *tokens);
+void print_tokens(t_token *tokens);
+
+t_node *new_cmd_node(void);
+t_node *new_pipe_node(t_node *left, t_node *right);
+t_node *parse(t_token *tokens);
+void free_ast(t_node *node);
+void print_ast(t_node *node, int level); //debugging
+void print_ast_no_indent(t_node *node);
 
 
 #endif
