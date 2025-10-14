@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.c                                              :+:      :+:    :+:   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:36:24 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/01 15:36:29 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:41:01 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,6 @@ t_node *new_pipe_node(t_node *left, t_node *right)
     return (node);  
 }
 
-//helper f-n to free array 
-static void free_string_array(char **arr)
-{
-    int i; 
-
-    if (!arr)
-        return ; 
-    i = 0; 
-    while (arr[i])
-    {
-        free (arr[i]);
-        i++;
-    }
-    free(arr);
-}
 
 //free redirection list
 static void free_redirections(t_redir *redir)
@@ -93,3 +78,19 @@ void free_ast(t_node *node)
     }
     free (node);
 }
+
+int get_cmd_count(t_node *node)
+{
+    if (!node)
+    {
+        return (0);
+    }
+    if (node->type  == NODE_CMD)
+        return (1);
+    return get_cmd_count(node->as.pipe.left) + get_cmd_count(node->as.pipe.right);
+}
+
+//void execute(t_node *node, int pipes[][2], int total_count, int i)
+//{
+    
+//}

@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/08 16:06:35 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:19:04 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 #include "../libft/libft.h"
 
 char *get_cmd(char *cmd, char **env);
+void free_string_array(char **arr);
 
 int get_env_lst_size(t_env_lst *head);
 char **env_lst_to_arr(t_env_lst *head);
@@ -57,9 +58,12 @@ t_node *new_cmd_node(void);
 t_node *new_pipe_node(t_node *left, t_node *right);
 t_node *parse(t_token *tokens);
 void free_ast(t_node *node);
-void print_ast(t_node *node, int level); //debugging
-void print_ast_no_indent(t_node *node);
+int get_cmd_count(t_node *node);
+void print_ast(t_node *node, int level);
 
+void close_unused_pipes(int pipes[][2], int len, int exeception_one, int exeception_two);
+
+void execute(t_node *node, int (*pipes)[2], int cmd_count, int *idx);
 
 #endif
 

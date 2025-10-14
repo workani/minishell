@@ -1,5 +1,5 @@
 CC ?= cc
-CC_FLAGS = -Wall -Wextra -Werror -Iinclude
+CC_FLAGS = -Iinclude #-Wall -Wextra -Werror 
 RM := rm -f
 
 LIBFT := libft
@@ -13,13 +13,15 @@ BUILTINS_DIR = $(SRC_DIR)/builtins
 
 LEXER_DIR = $(SRC_DIR)/lexer
 PARSER_DIR = $(SRC_DIR)/parser
+EXECUTOR_DIR = $(SRC_DIR)/executor
 
 OBJS_DIR = obj
 
-SRCS = $(ENV_DIR)/env_lst.c $(SRC_DIR)/utils.c $(SRC_DIR)/minishell.c \
+SRCS = $(ENV_DIR)/env_lst.c  $(SRC_DIR)/minishell.c \
+	   $(PARSER_DIR)/ast_utils.c $(PARSER_DIR)/parser_utils.c $(SRC_DIR)/utils.c  $(EXECUTOR_DIR)/executor_utils.c \
 	   $(BUILTINS_DIR)/pwd.c \
 	   $(LEXER_DIR)/lexer_utils.c $(LEXER_DIR)/lexer.c $(LEXER_DIR)/token.c \
-	   $(PARSER_DIR)/ast.c $(PARSER_DIR)/parser_utils.c $(PARSER_DIR)/parser.c
+	   $(PARSER_DIR)/parser.c $(EXECUTOR_DIR)/executor.c
 
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))

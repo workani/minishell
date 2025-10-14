@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:22:35 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/09/16 13:15:11 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:42:36 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,18 @@ char	*get_cmd(char *cmd, char **env)
 		free(full_cmd);
 	}
 	return (NULL);
+}
+void free_string_array(char **arr)
+{
+    int i; 
+
+    if (!arr)
+        return ; 
+    i = 0; 
+    while (arr[i])
+    {
+        free (arr[i]);
+        i++;
+    }
+    free(arr);
 }
