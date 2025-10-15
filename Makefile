@@ -17,11 +17,12 @@ EXECUTOR_DIR = $(SRC_DIR)/executor
 
 OBJS_DIR = obj
 
-SRCS = $(ENV_DIR)/env_lst.c  $(SRC_DIR)/minishell.c \
-	   $(PARSER_DIR)/ast_utils.c $(PARSER_DIR)/parser_utils.c $(SRC_DIR)/utils.c  $(EXECUTOR_DIR)/executor_utils.c \
-	   $(BUILTINS_DIR)/pwd.c \
-	   $(LEXER_DIR)/lexer_utils.c $(LEXER_DIR)/lexer.c $(LEXER_DIR)/token.c \
-	   $(PARSER_DIR)/parser.c $(EXECUTOR_DIR)/executor.c
+SRCS = $(SRC_DIR)/minishell.c $(SRC_DIR)/utils.c \
+	   $(ENV_DIR)/env_lst.c \
+	   $(LEXER_DIR)/lexer.c $(LEXER_DIR)/lexer_utils.c $(LEXER_DIR)/token.c \
+	   $(PARSER_DIR)/parser.c $(PARSER_DIR)/parser_utils.c $(PARSER_DIR)/ast_utils.c \
+	   $(EXECUTOR_DIR)/executor.c $(EXECUTOR_DIR)/executor_utils.c \
+	   $(BUILTINS_DIR)/pwd.c $(BUILTINS_DIR)/builtins_utils.c
 
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))

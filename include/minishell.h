@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 13:59:53 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:53:09 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void print_ast(t_node *node, int level);
 
 void close_unused_pipes(int pipes[][2], int len, int exeception_one, int exeception_two);
 void close_pipes_and_wait(int pipes[][2], int cmd_count);
+void setup_pipes(int pipes[][2], int pipe_count, int idx);
 
 void execute(t_node *node, int (*pipes)[2], int cmd_count, char **env, int *idx);
 

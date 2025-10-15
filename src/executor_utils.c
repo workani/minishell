@@ -31,3 +31,23 @@ void close_pipes_and_wait(int pipes[][2], int cmd_count)
         i++;
     }
 }
+
+void setup_pipes(int pipes[][2], int pipe_count, int idx)
+{
+  if (idx == 0)
+		{
+			dup2(pipes[0][1], STDOUT_FILENO);
+			close_unused_pipes(pipes, pipe_count, pipes[0][1], DISCARD);
+		}
+		else if (idx == pipe_count)
+		{
+			dup2(pipes[idx - 1][0], STDIN_FILENO);
+			close_unused_pipes(pipes, pipe_count, pipes[idx - 1][0], DISCARD);
+		}
+		else
+		{
+			dup2(pipes[idx - 1][0], STDIN_FILENO);
+			dup2(pipes[idx][1], STDOUT_FILENO);
+			close_unused_pipes(pipes, pipe_count, pipes[idx - 1][0], pipes[idx][1]);
+		}
+}

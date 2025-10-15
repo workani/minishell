@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 15:17:30 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 16:32:21 by dklepenk         ###   ########.fr       */
+/*   Created: 2025/10/15 16:25:44 by dklepenk          #+#    #+#             */
+/*   Updated: 2025/10/15 16:37:33 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+bool is_builtin(char *cmd)
 {
-	size_t			i;
-	unsigned char	*uchar_s1;
-	unsigned char	*uchar_s2;
+	int i;
 
 	i = 0;
-	uchar_s1 = (unsigned char *)s1;
-	uchar_s2 = (unsigned char *)s2;
-	while ((uchar_s1[i] || uchar_s2[i]) && i < n)
+	while (builtins[i] != NULL)
 	{
-		if (uchar_s1[i] != uchar_s2[i])
-			return (uchar_s1[i] - uchar_s2[i]);
-		i++;
+		if (ft_strcmp(cmd, builtins[i]) == 0)
+			return (true);
 	}
-	return (0);
+	return (false);
 }
