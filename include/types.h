@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 17:48:48 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:23:28 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static const char *builtins[] = {
     "unset",
     "envp",
     "exit",
-    NULL
 };
 
 typedef struct s_envp_lst

@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 17:58:29 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:32:36 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,18 @@ void execute_builtin(char *cmd, char **args, char **envp)
 }
 void execute_cmd(char **args, int pipes[][2], int cmd_count, char **envp, int idx)
 {
-	if (is_builtin(args[0]))
+	if (is_builtin(args[0]) && cmd_count == 1)
 		return (execute_builtin(args[0], args, envp));
 	if (fork() == 0)
 	{
 		setup_pipes(pipes, cmd_count - 1, idx);
-		execv(get_cmd(args[0], envp), args);
+		if (is_builtin(args[0]))
+		{
+			execute_builtin(args[0], args, envp);
+			exit(0);
+		}
+		else
+			execve(get_cmd(args[0], envp), args, envp);
 	}
 }
 
