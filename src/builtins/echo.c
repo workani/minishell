@@ -13,23 +13,23 @@
 
 #include "minishell.h"
 
-static bool check_n_flag(char **args)
+static bool should_print_no_new_line(const char *arg)
 {
-    int i; 
-    if (!args || args[0] != '-')
-        return (false); 
-    if (args[1] != 'n')
-        return (false); 
+    int i;
 
-    i = 1; 
-    while(args[i])
+    if (!arg || arg[0] != '-')
+        return false;
+    i = 1;
+    while (arg[i])
     {
-        if (args[1] != 'n')
-            return (0);
+        if (arg[i] != 'n')
+            return (false);
         i++;
     }
-    return (1);
+    return (true);
 }
+
+
 
 int builtin_echo(char **args, char **envpp)
 {
@@ -38,7 +38,7 @@ int builtin_echo(char **args, char **envpp)
 
     i = 1; 
     print_newline = true;
-    while (args[i] && check_n_flag(args[i]))
+    while (args[i] && should_print_no_new_line(args[i]))
     {
         print_newline = false; 
         i++;
