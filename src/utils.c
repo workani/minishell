@@ -6,23 +6,23 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:22:35 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/10 14:42:36 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:48:48 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**get_paths(char **env)
+char	**get_paths(char **envp)
 {
 	int		i;
 	char	*trimmed;
 
 	i = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		if (ft_strnstr(env[i], PATH_PREFIX, PATH_PREFIX_LEN))
+		if (ft_strnstr(envp[i], PATH_PREFIX, PATH_PREFIX_LEN))
 		{
-			trimmed = ft_substr(env[i], PATH_PREFIX_LEN, (ft_strlen(env[i])
+			trimmed = ft_substr(envp[i], PATH_PREFIX_LEN, (ft_strlen(envp[i])
 						- PATH_PREFIX_LEN));
 			return (ft_split(trimmed, ':'));
 		}
@@ -31,14 +31,14 @@ char	**get_paths(char **env)
 	return (NULL);
 }
 
-char	*get_cmd(char *cmd, char **env)
+char	*get_cmd(char *cmd, char **envp)
 {
 	int i;
 	char *full_cmd;
 	char **paths;
 
 	i = 0;
-	paths = get_paths(env);
+	paths = get_paths(envp);
 	if (!paths)
 		return (NULL);
 	while (paths[i])

@@ -8,7 +8,7 @@ LIBFT_ARCHIVE := $(LIBFT)/libft.a
 NAME = minishell
 
 SRC_DIR = src
-ENV_DIR = $(SRC_DIR)/env
+ENVP_DIR = $(SRC_DIR)/envp
 BUILTINS_DIR = $(SRC_DIR)/builtins
 
 LEXER_DIR = $(SRC_DIR)/lexer
@@ -18,16 +18,16 @@ EXECUTOR_DIR = $(SRC_DIR)/executor
 OBJS_DIR = obj
 
 SRCS = $(SRC_DIR)/minishell.c $(SRC_DIR)/utils.c \
-	   $(ENV_DIR)/env_lst.c \
+	   $(ENVP_DIR)/envp_lst.c \
 	   $(LEXER_DIR)/lexer.c $(LEXER_DIR)/lexer_utils.c $(LEXER_DIR)/token.c \
 	   $(PARSER_DIR)/parser.c $(PARSER_DIR)/parser_utils.c $(PARSER_DIR)/ast_utils.c \
 	   $(EXECUTOR_DIR)/executor.c $(EXECUTOR_DIR)/executor_utils.c \
-	   $(BUILTINS_DIR)/pwd.c $(BUILTINS_DIR)/builtins_utils.c
+	   $(BUILTINS_DIR)/echo.c $(BUILTINS_DIR)/envp.c $(BUILTINS_DIR)/exit.c $(BUILTINS_DIR)/pwd.c  $(BUILTINS_DIR)/builtins_utils.c
 
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
 
-vpath %.c $(SRC_DIR) $(ENV_DIR) $(BUILTINS_DIR) $(LEXER_DIR) $(PARSER_DIR)
+vpath %.c $(SRC_DIR) $(ENVP_DIR) $(BUILTINS_DIR) $(LEXER_DIR) $(PARSER_DIR) $(EXECUTOR_DIR)
 
 $(OBJS_DIR)/%.o: %.c
 	mkdir -p $(OBJS_DIR)

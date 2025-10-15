@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   envpp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 13:50:35 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/14 13:50:35 by mbondare         ###   ########.fr       */
+/*   Created: 2025/10/14 13:50:14 by mbondare          #+#    #+#             */
+/*   Updated: 2025/10/14 13:50:14 by mbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-int builtin_pwd()
+int builtin_envp(char **envp)
 {
-	char *cwd;
-	cwd = malloc(sizeof(char) * PATH_MAX);
-	if (!cwd)
-	{
-		perror ("pwd:error"); 
-		return (FAILURE); 
-	}
-	if (getcwd(cwd, PATH_MAX) == NULL)
-	{
-		perror("pwd:error"); 
-		free(cwd); 
-		return (FAILURE); 
-	}
-	printf("%s\n", cwd); 
-	free(cwd); 
-	return (SUCCESS); 
+    int i; 
+
+    if (!envp)
+        return (SUCCESS); 
+    i = 0; 
+    while (envp[i])
+    {
+        printf("%s\n", envp[i]); 
+        i++;
+    }
+    return (SUCCESS); 
 }

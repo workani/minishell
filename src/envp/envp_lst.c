@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_lst.c                                          :+:      :+:    :+:   */
+/*   envp_lst.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int get_env_lst_size(t_env_lst *head)
+int get_envp_lst_size(t_envp_lst *head)
 {
 	int size;
 
@@ -25,25 +25,25 @@ int get_env_lst_size(t_env_lst *head)
 	return (size);
 }
 
-char **env_lst_to_arr(t_env_lst *head)
+char **envp_lst_to_arr(t_envp_lst *head)
 {
 	int i;
 	int len;
-	char **env;
+	char **envp;
 
 	i = 0;
-	len = get_env_lst_size(head);
-	env = malloc(len + 1);
+	len = get_envp_lst_size(head);
+	envp = malloc(len + 1);
 	while (i < len && head)
 	{
-		env[i] = head->value;
+		envp[i] = head->value;
 		head = head->next;
 		i++;
 	}
-	return (env);
+	return (envp);
 }
 
-void print_env_lst(t_env_lst *head)
+void print_envp_lst(t_envp_lst *head)
 {
 	while (head)
 	{
@@ -52,11 +52,11 @@ void print_env_lst(t_env_lst *head)
 	}
 }
 
-static void add_node(t_env_lst **head, char *value)
+static void add_node(t_envp_lst **head, char *value)
 {
-	t_env_lst *node;
+	t_envp_lst *node;
 
-	node = malloc(sizeof(t_env_lst));
+	node = malloc(sizeof(t_envp_lst));
 	if (!node)
 		return;
 	node->value = value;
@@ -64,14 +64,14 @@ static void add_node(t_env_lst **head, char *value)
 	*head = node;
 }
 
-void init_env_lst(t_env_lst **head, char **env)
+void init_envp_lst(t_envp_lst **head, char **envp)
 {
 	int i;
 
 	i = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		add_node(head, env[i]);
+		add_node(head, envp[i]);
 		i++;
 	}
 }

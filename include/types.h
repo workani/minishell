@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 16:30:50 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:48:48 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static const char *builtins[] = {
     "pwd",
     "export",
     "unset",
-    "env",
+    "envp",
     "exit",
     NULL
 };
 
-typedef struct s_env_lst
+typedef struct s_envp_lst
 {
 	char *value;
-	struct s_env_lst *next;
-} t_env_lst;
+	struct s_envp_lst *next;
+} t_envp_lst;
 
 typedef enum e_token_type
 {
