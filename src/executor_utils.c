@@ -18,3 +18,16 @@ void close_unused_pipes(int pipes[][2], int len, int exeception_one, int execept
     i++;
   }
 }
+
+void close_pipes_and_wait(int pipes[][2], int cmd_count)
+{
+    int i;
+
+    i = 0;
+    close_unused_pipes(pipes, cmd_count - 1, DISCARD, DISCARD);
+    while (i < cmd_count)
+    {
+        wait(NULL);
+        i++;
+    }
+}
