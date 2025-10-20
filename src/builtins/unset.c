@@ -1,38 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 12:49:22 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 17:26:47 by dklepenk         ###   ########.fr       */
+/*   Created: 2025/10/20 15:49:37 by dklepenk          #+#    #+#             */
+/*   Updated: 2025/10/20 16:06:50 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+int builtin_unset(t_env_lst  **env)
 {
-	int		i;
-	int		s_len;
-	char	*result;
-
-	i = 0;
-	s_len = ft_strlen(s);
-	result = malloc(s_len + 1);
-	if (result == NULL)
-		return (NULL);
-	while (i <= s_len)
-	{
-		result[i] = s[i];
-		i++;
-	}
-	return (result);
+	print_env_lst(*env);
+	return (0);
 }
-
-// int main()
-// {
-//     char str[] = "Now I Am Become Death, the Destroyer of Worlds.";
-//     printf("res: %s", ft_strdup(str));
-// }

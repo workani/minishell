@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 18:23:28 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:00:29 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_envp_lst
 {
 	char *value;
 	struct s_envp_lst *next;
-} t_envp_lst;
+} t_env_lst;
 
 typedef enum e_token_type
 {

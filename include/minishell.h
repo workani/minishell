@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/16 18:44:05 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:06:03 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 char *get_cmd(char *cmd, char **);
 void free_string_array(char **arr);
 
-int get_envp_lst_size(t_envp_lst *head);
-char **_lst_to_arr(t_envp_lst *head);
-void print_envp_lst(t_envp_lst *head);
-void init_envp_lst(t_envp_lst **head, char **envp);
+int get_env_lst_size(t_env_lst *head);
+char **env_lst_to_arr(t_env_lst *head);
+void print_env_lst(t_env_lst *head);
+void init_env_lst(t_env_lst **head, char **envp);
 
 t_token *tokenize (char *input);
 int handle_word(char *input, int i, t_token **token_list);
@@ -65,11 +65,13 @@ void close_unused_pipes(int pipes[][2], int len, int exeception_one, int execept
 void close_pipes_and_wait(int pipes[][2], int cmd_count);
 void setup_pipes(int pipes[][2], int pipe_count, int idx);
 
-void execute(t_node *node, int (*pipes)[2], int cmd_count, char **envp, int *idx);
+void execute(t_node *node, int (*pipes)[2], int cmd_count, t_env_lst **env, int *idx);
 
 bool is_builtin(char *cmd);
 int builtin_echo(char **args);
-int builtin_envp(char **envp);
+int builtin_env(t_env_lst **env);
+int builtin_unset(t_env_lst **env);
+int builtin_export(t_env_lst **env);
 int builtin_exit(char **args);
 int builtin_pwd();
 

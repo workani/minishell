@@ -12,38 +12,44 @@
 
 #include "minishell.h"
 
-int get_envp_lst_size(t_envp_lst *head)
+int get_env_lst_size(t_env_lst *head)
 {
 	int size;
 
 	size = 0;
 	while (head)
 	{
-		size++;
+		if (head->value)
+			size++;
 		head = head->next;
 	}
 	return (size);
 }
 
-char **envp_lst_to_arr(t_envp_lst *head)
+char **env_lst_to_arr(t_env_lst *head)
 {
 	int i;
 	int len;
 	char **envp;
 
 	i = 0;
-	len = get_envp_lst_size(head);
-	envp = malloc(len + 1);
+	len = get_env_lst_size(head);
+
+	envp = malloc((len + 1) * sizeof(char *));
 	while (i < len && head)
 	{
-		envp[i] = head->value;
+		if (head->value)
+		{
+			envp[i] = ft_strdup(head->value);
+			i++;
+		}
 		head = head->next;
-		i++;
 	}
+	envp[i] = NULL;
 	return (envp);
 }
 
-void print_envp_lst(t_envp_lst *head)
+void print_env_lst(t_env_lst *head)
 {
 	while (head)
 	{
@@ -52,11 +58,11 @@ void print_envp_lst(t_envp_lst *head)
 	}
 }
 
-static void add_node(t_envp_lst **head, char *value)
+static void add_node(t_env_lst **head, char *value)
 {
-	t_envp_lst *node;
+	t_env_lst *node;
 
-	node = malloc(sizeof(t_envp_lst));
+	node = malloc(sizeof(t_env_lst));
 	if (!node)
 		return;
 	node->value = value;
@@ -64,7 +70,7 @@ static void add_node(t_envp_lst **head, char *value)
 	*head = node;
 }
 
-void init_envp_lst(t_envp_lst **head, char **envp)
+void init_env_lst(t_env_lst **head, char **envp)
 {
 	int i;
 

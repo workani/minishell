@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-int builtin_envp(char **envp)
+int builtin_env(t_env_lst **env)
 {
-    int i; 
+    int i;
+    char **envp; 
 
-    if (!envp)
+    if (!env)
         return (SUCCESS); 
+    envp = env_lst_to_arr(*env);
     i = 0; 
     while (envp[i])
     {

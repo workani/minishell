@@ -6,14 +6,14 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 17:48:48 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:07:27 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void execute_ast(t_node *ast, int cmd_count, char **envp)
+void execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
 {
     int i;
     int idx;
@@ -26,12 +26,12 @@ void execute_ast(t_node *ast, int cmd_count, char **envp)
         pipe(pipes[i]);
         i++;
     }
-    execute(ast, pipes, cmd_count, envp, &idx);
+    execute(ast, pipes, cmd_count, env, &idx);
     close_pipes_and_wait(pipes, cmd_count);
 }
 
 
-void shell_loop(char **envp)
+void shell_loop(t_env_lst **env)
 {
     char *line; 
     t_token *tokens;
@@ -55,7 +55,7 @@ void shell_loop(char **envp)
                 if (ast)
                 {
                     int count = get_cmd_count(ast);
-                    execute_ast(ast, count, envp);
+                    execute_ast(ast, count, env);
                 }
                 free_tokens(tokens);
             }
@@ -68,9 +68,34 @@ int main (int argc, char **argv, char **envp)
 {
     (void) argc; 
     (void) argv;
+    t_env_lst *env;
 
-
-    shell_loop(envp); 
+    
+    env = NULL;
+    init_env_lst(&env, envp);
+    shell_loop(&env); 
 
     return (0);
 } 
+
+
+//int main (int argc, char **argv, char **envp)
+//{
+//    (void) argc; 
+//    (void) argv;
+//    t_env_lst *env = NULL;
+
+//    init_env_lst(&env, envp);
+//    char **new_envp = env_lst_to_arr(env);
+//    (void) new_envp;
+//    int i = 0;
+//    while (new_envp[i] != NULL)
+//    {
+//        if (new_envp[i])
+//            printf("%s\n", new_envp[i]);
+//        i++;
+//    }
+    
+//    return (0);
+//} 
+        
