@@ -31,7 +31,7 @@ static bool should_print_no_new_line(const char *arg)
 
 
 
-int builtin_echo(char **args, char **envpp)
+int builtin_echo(char **args)
 {
     int i; 
     bool print_newline;

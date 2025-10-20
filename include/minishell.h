@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 17:52:41 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:44:05 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include <term.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errno.h>
 
 #include "defines.h"
 #include "types.h"
@@ -67,10 +68,16 @@ void setup_pipes(int pipes[][2], int pipe_count, int idx);
 void execute(t_node *node, int (*pipes)[2], int cmd_count, char **envp, int *idx);
 
 bool is_builtin(char *cmd);
-int builtin_echo(char **args, char **envpp);
+int builtin_echo(char **args);
 int builtin_envp(char **envp);
 int builtin_exit(char **args);
 int builtin_pwd();
+
+void setup_redirections(t_redir *node);
+void redir_in(char *filename);
+void redir_out(char *filename);
+void redir_append(char *filename);
+void redir_heredoc(char *del);
 
 #endif
 
