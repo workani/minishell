@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 16:06:03 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:38:30 by mbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 
 char *get_cmd(char *cmd, char **);
 void free_string_array(char **arr);
+
+extern int g_exit_status;
+extern volatile sig_atomic_t g_heredoc_interrupted;
 
 int get_env_lst_size(t_env_lst *head);
 char **env_lst_to_arr(t_env_lst *head);
@@ -80,6 +83,11 @@ void redir_in(char *filename);
 void redir_out(char *filename);
 void redir_append(char *filename);
 void redir_heredoc(char *del);
+
+void    setup_interactive_signals(void);
+void    setup_child_signals(void);
+void    setup_parent_exec_signals(void);
+void    setup_heredoc_signals(void);
 
 #endif
 

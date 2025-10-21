@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 16:06:09 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:21:51 by mbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,67 @@ static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_in_
 	if (is_in_pipe)
 		exit(SUCCESS);
 }
+
 void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx)
 {
 	char **envp;
+	pid_t pid; 
+	
 	
 	if (is_builtin(node->args[0]) && cmd_count == 1)
-		return (execute_builtin(node->args[0], node->args, env, false));
-	if (fork() == 0)
 	{
-		setup_pipes(pipes, cmd_count - 1, idx);
-		setup_redirections(node->redirections);
-		if (is_builtin(node->args[0]))
-		{
-			execute_builtin(node->args[0], node->args, env, true);	
-		}
-		else
-		{
-			envp = env_lst_to_arr(*env);
-			execve(get_cmd(node->args[0], envp), node->args, envp);	
-		}
+		execute_builtin(node->args[0], node->args, env, false); 
+		return; 
 	}
+
+	pid = fork(); 
+	if (pid == -1);
+	{
+		perror("fork"); 
+		g_exit_status = 1; 
+		return; 
+	}
+	if(pid == 0)
+	{
+		setupt_child_signals(); 
+		if(cmd_count > 1)
+			setup_pipes(pipes, cmd_count - 1, idx); 
+		setup_redirections(node->redirections); 
+
+		if(is_builtin(node->args[0]))
+		{
+			execute_builtin(node->args[0], node->args[0], envp);
+		}
+		else 
+		{
+			envp = env_lst_to_arr(*env); 
+			char *cmd_path = get_cmd(node->args[0], envp); 
+			perror("execve");
+			exit(127); 
+		}
+		else 
+		ft_putstr_fd("minishell:cmnd not found ", 2); 
+		ft_putstr_fd(node->args[0], 2); 
+		ft_putstr_fd("\n", 2);
+		exit(127); 
+	}
+}
+
+	// 	return (execute_builtin(node->args[0], node->args, env, false));
+	// if (fork() == 0)
+	// {
+	// 	setup_pipes(pipes, cmd_count - 1, idx);
+	// 	setup_redirections(node->redirections);
+	// 	if (is_builtin(node->args[0]))
+	// 	{
+	// 		execute_builtin(node->args[0], node->args, env, true);	
+	// 	}
+	// 	else
+	// 	{
+	// 		envp = env_lst_to_arr(*env);
+	// 		execve(get_cmd(node->args[0], envp), node->args, envp);	
+	// 	}
+	// }
 }
 
 void execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int *idx)
