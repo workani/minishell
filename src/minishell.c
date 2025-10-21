@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 20:12:32 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:53:23 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void shell_loop(t_env_lst **env)
 
     while (1)
     {
-        line = readline("minihell$ ");
+        line = readline(PROMPT);
         if(!line)
         {
             write(STDOUT_FILENO, "exit\n", 5);

@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 18:08:50 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:42:20 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char **env_lst_to_arr(t_env_lst *head);
 void print_env_lst(t_env_lst *head);
 void init_env_lst(t_env_lst **head, char **envp);
 void add_env_node(t_env_lst **head, char *key, char *value);
-void delete_env_node(t_env_lst **head, t_env_lst *target);
+void delete_env_node(t_env_lst **head, char *key);
 
 t_token *tokenize (char *input);
 int handle_word(char *input, int i, t_token **token_list);

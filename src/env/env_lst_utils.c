@@ -6,11 +6,18 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 19:09:18 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:49:15 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void free_env_node(t_env_lst *node)
+{
+	free(node->key);
+	free(node->value);
+	free(node);
+}
 
 void add_env_node(t_env_lst **head, char *key, char *value)
 {
@@ -25,20 +32,30 @@ void add_env_node(t_env_lst **head, char *key, char *value)
 	*head = node;
 }
 
-void delete_env_node(t_env_lst **head, t_env_lst *target)
+void delete_env_node(t_env_lst **head, char *key)
 {
-	if (!head)
+	t_env_lst *current;
+	t_env_lst *tmp;
+	
+	if (!(*head))
 		return;
-	if ((*head) == target)
+	current = *head;
+	if (current->key && ft_strcmp(key, current->key) == 0)
 	{
-		//free(*head);
-		*head = NULL;
+		(*head) = (*head)->next;
+		free_env_node(current);
+		return ;
 	}
-	if ((*head)->next == target)
+	while (current->next != NULL)
 	{
-		(*head)->next = target->next;
-		//free(target);
-		return ;	
+		if (current->next->key && ft_strcmp(key, current->next->key) == 0)
+		{
+			tmp = current->next;
+			current->next = current->next->next;
+			free_env_node(tmp);
+			return ;
+		}
+		current = current->next;
 	}
 }
 

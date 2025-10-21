@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:36:24 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/14 18:41:01 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:25:44 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,3 @@ int get_cmd_count(t_node *node)
         return (1);
     return get_cmd_count(node->as.pipe.left) + get_cmd_count(node->as.pipe.right);
 }
-
-//void execute(t_node *node, int pipes[][2], int total_count, int i)
-//{
-    
-//}

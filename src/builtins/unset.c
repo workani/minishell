@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:49:37 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 19:10:03 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:12:09 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,6 @@ static bool is_valid_var_name(const char *var)
 	return (true);
 }
 
-static void delete_var_from_env(t_env_lst **head, const char *key)
-{
-	t_env_lst *node;
-
-	node = *head;
-	while (node != NULL)
-	{
-		if (node->key && ft_strcmp(key, node->key))
-		{
-			delete_env_node(head, node);
-			return;
-		}
-		node = node->next;
-	}
-}
 
 int builtin_unset(t_env_lst  **env, char **args)
 {
@@ -59,8 +44,10 @@ int builtin_unset(t_env_lst  **env, char **args)
 		{
 			printf("minishell: unset: `%s': not a valid identifier\n", args[i]);
 			exit_status = FAILURE;
+			i++;
+			continue;
 		}
-		delete_var_from_env(env, args[i]);
+		delete_env_node(env, args[i]);
 		i++;
 	}
 	return (exit_status);
