@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "minishell.h": "c",
+        "libft.h": "c",
+        "stdio.h": "c",
+        "unistd.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c",
+        "readline.h": "c",
+        "history.h": "c",
+        "get_next_line.h": "c",
+        "ft_printf.h": "c"
+    },
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/include",
+        "${workspaceFolder}/libft/include",
+        "${workspaceFolder}/libft"
+    ],
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+    "C_Cpp.default.cStandard": "c99",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.default.defines": [],
+    "C_Cpp.default.compilerArgs": [
+        "-Wall",
+        "-Wextra",
+        "-Werror"
+    ]
+}

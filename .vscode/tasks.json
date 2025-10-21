@@ -1,0 +1,64 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build libft",
+            "command": "make",
+            "args": ["-C", "libft"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "type": "cppbuild",
+            "label": "Build minishell",
+            "command": "/usr/bin/gcc",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "-Iinclude",
+                "-Ilibft/include",
+                "-Ilibft",
+                "src/*.c",
+                "src/**/*.c",
+                "-Llibft",
+                "-lft",
+                "-lreadline",
+                "-o",
+                "minishell"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["Build libft"],
+            "detail": "Build minishell with libft.a"
+        },
+        {
+            "label": "Clean all",
+            "type": "shell",
+            "command": "make",
+            "args": ["fclean", "&&", "make", "-C", "libft", "fclean"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Re-build all",
+            "type": "shell",
+            "command": "make",
+            "args": ["re"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}

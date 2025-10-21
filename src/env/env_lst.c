@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-int get_env_lst_size(t_env_lst *head)
-{
-	int size;
-
-	size = 0;
-	while (head)
-	{
-		if (head->value)
-			size++;
-		head = head->next;
-	}
-	return (size);
-}
-
 char *combine_key_value(t_env_lst *node)
 {
 	int i;
@@ -73,27 +59,6 @@ char **env_lst_to_arr(t_env_lst *head)
 	return (envp);
 }
 
-void print_env_lst(t_env_lst *head)
-{
-	while (head)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
-}
-
-static void add_node(t_env_lst **head, char *key, char *value)
-{
-	t_env_lst *node;
-
-	node = malloc(sizeof(t_env_lst));
-	if (!node)
-		return;
-	node->key = key;
-	node->value = value;
-	node->next = *head;
-	*head = node;
-}
 
 void init_env_lst(t_env_lst **head, char **envp)
 {
@@ -110,7 +75,7 @@ void init_env_lst(t_env_lst **head, char **envp)
 		del_idx = ft_cst_strchr(envp[i], '=');
 		key = ft_substr(envp[i], 0, del_idx);
 		value = ft_substr(envp[i], del_idx + 1, ft_strlen(envp[i]) - del_idx - 1);
-		add_node(head, key, value);
+		add_env_node(head, key, value);
 		i++;
 	}
 }

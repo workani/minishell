@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 15:45:53 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:09:04 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_in_
 	if (ft_strcmp(cmd, "pwd") == 0)
 		builtin_pwd();
 	if (ft_strcmp(cmd, "unset") == 0)
-		builtin_unset(env);
+		builtin_unset(env, args);
 	if (is_in_pipe)
 		exit(SUCCESS);
 }

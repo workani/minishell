@@ -6,22 +6,14 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 19:28:22 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:21:07 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
 
-static const char *builtins[] = {
-    "echo",
-    "cd",
-    "pwd",
-    "export",
-    "unset",
-    "envp",
-    "exit",
-};
+extern const char *builtins[];
 
 typedef struct s_env_lst
 {
