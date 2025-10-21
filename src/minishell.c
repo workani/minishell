@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 18:07:27 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:12:32 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,7 @@ int main (int argc, char **argv, char **envp)
 //    t_env_lst *env = NULL;
 
 //    init_env_lst(&env, envp);
-//    char **new_envp = env_lst_to_arr(env);
-//    (void) new_envp;
-//    int i = 0;
-//    while (new_envp[i] != NULL)
-//    {
-//        if (new_envp[i])
-//            printf("%s\n", new_envp[i]);
-//        i++;
-//    }
+//    char **new_envp = env
     
 //    return (0);
 //} 

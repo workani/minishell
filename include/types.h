@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 16:00:29 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/20 19:28:22 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ static const char *builtins[] = {
     "exit",
 };
 
-typedef struct s_envp_lst
+typedef struct s_env_lst
 {
+    char *key;
 	char *value;
-	struct s_envp_lst *next;
+	struct s_env_lst *next;
 } t_env_lst;
 
 typedef enum e_token_type

@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:03:05 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 16:34:33 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:09:43 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 size_t	ft_strlcpy(char *dst, const char *src, size_t siz);
 size_t	ft_strlcat(char *dst, const char *src, size_t siz);
 char	*ft_strchr(const char *s, int c);
+int		ft_cst_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -46,6 +47,7 @@ int		ft_atoi(const char *nptr);
 double	ft_atod(char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_append_str(char *dest, int *dest_idx, char *src);
 char	*ft_strtrim(char const *s1, char const *set);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
