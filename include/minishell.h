@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 19:42:20 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:23:07 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char **env_lst_to_arr(t_env_lst *head);
 void print_env_lst(t_env_lst *head);
 void init_env_lst(t_env_lst **head, char **envp);
 void add_env_node(t_env_lst **head, char *key, char *value);
+void add_or_update_env_var(t_env_lst **head, char *key, char *value);
+bool convert_var_to_key_value_pair(char *dst[2], char *var);
 void delete_env_node(t_env_lst **head, char *key);
 
 t_token *tokenize (char *input);
@@ -70,6 +72,8 @@ void setup_pipes(int pipes[][2], int pipe_count, int idx);
 void execute(t_node *node, int (*pipes)[2], int cmd_count, t_env_lst **env, int *idx);
 
 bool is_builtin(char *cmd);
+bool is_valid_var_name(const char *var);
+
 int builtin_echo(char **args);
 int builtin_env(t_env_lst **env);
 int builtin_unset(t_env_lst **env, char **args);
