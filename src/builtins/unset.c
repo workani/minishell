@@ -12,8 +12,44 @@
 
 #include "minishell.h"
 
-int builtin_unset(t_env_lst  **env)
+static void	remove_env_node(t_env_lst **env, char *var)
 {
-	print_env_lst(*env);
-	return (0);
+	t_env_lst	*current;
+	t_env_lst	*prev;
+	int			var_len;
+
+	prev = NULL;
+	current = *env;
+	var_len = ft_strlen(var);
+	while (current)
+	{
+		if (ft_strncmp(current->value, var, var_len) == 0
+			&& (current->value[var_len] == '=' 
+			|| current->value[var_len] == '\0'))
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*env = current->next;
+			free(current);
+			return ;
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+int	builtin_unset(char **args, t_env_lst **env)
+{
+	int	i;
+
+	if (!args[1])
+		return (SUCCESS);
+	i = 1;
+	while (args[i])
+	{
+		remove_env_node(env, args[i]);
+		i++;
+	}
+	return (SUCCESS);
 }

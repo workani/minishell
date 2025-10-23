@@ -30,33 +30,38 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #include "defines.h"
 #include "types.h"
 #include "../libft/libft.h"
 
+// Global variable for signals
+extern volatile sig_atomic_t g_signal_received;
+
+// Utils
 char *get_cmd(char *cmd, char **);
 void free_string_array(char **arr);
 
-extern int g_exit_status;
-extern volatile sig_atomic_t g_heredoc_interrupted;
-
+// Environment list functions
 int get_env_lst_size(t_env_lst *head);
 char **env_lst_to_arr(t_env_lst *head);
 void print_env_lst(t_env_lst *head);
 void init_env_lst(t_env_lst **head, char **envp);
 
+// Tokenizer functions
 t_token *tokenize (char *input);
 int handle_word(char *input, int i, t_token **token_list);
 int handle_metachar(char *input, int i, t_token **token_list);
 int handle_quotes(char *input, int i, t_token **token_list);
 
-
+// Token functions
 t_token *new_token(char *value, t_token_type type);
 void add_token_to_list(t_token **list_head, t_token *new);
 void free_tokens(t_token *tokens);
 void print_tokens(t_token *tokens);
 
+// AST functions
 t_node *new_cmd_node(void);
 t_node *new_pipe_node(t_node *left, t_node *right);
 t_node *parse(t_token *tokens);
@@ -64,30 +69,38 @@ void free_ast(t_node *node);
 int get_cmd_count(t_node *node);
 void print_ast(t_node *node, int level);
 
-void close_unused_pipes(int pipes[][2], int len, int exeception_one, int exeception_two);
+// Pipe functions
+void close_unused_pipes(int pipes[][2], int len, int exception_one, int exception_two);
 void close_pipes_and_wait(int pipes[][2], int cmd_count);
 void setup_pipes(int pipes[][2], int pipe_count, int idx);
 
+// Executor functions
 void execute(t_node *node, int (*pipes)[2], int cmd_count, t_env_lst **env, int *idx);
+void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx);
 
+// Builtin functions
 bool is_builtin(char *cmd);
 int builtin_echo(char **args);
-int builtin_env(t_env_lst **env);
-int builtin_unset(t_env_lst **env);
-int builtin_export(t_env_lst **env);
+int builtin_env(t_env_lst *env);
+int builtin_unset(char **args, t_env_lst **env);
+int builtin_export(char **args, t_env_lst **env);
 int builtin_exit(char **args);
-int builtin_pwd();
+int builtin_pwd(void);
+int builtin_cd(char **args, t_env_lst **env);
+void expand_variables(t_cmd_node *cmd_node, t_env_lst *env);
 
+
+// Redirection functions
 void setup_redirections(t_redir *node);
 void redir_in(char *filename);
 void redir_out(char *filename);
 void redir_append(char *filename);
 void redir_heredoc(char *del);
 
-void    setup_interactive_signals(void);
-void    setup_child_signals(void);
-void    setup_parent_exec_signals(void);
-void    setup_heredoc_signals(void);
+// Signal functions
+void setup_interactive_signals(void);
+void setup_child_signals(void);
+void setup_parent_exec_signals(void);
+void setup_heredoc_signals(void);
 
 #endif
-

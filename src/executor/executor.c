@@ -12,85 +12,88 @@
 
 #include "minishell.h"
 
-static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_in_pipe)
+static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
+							bool is_in_pipe)
 {
+	int	status;
+
+	status = 0;
 	if (ft_strcmp(cmd, "echo") == 0)
-		builtin_echo(args);
-	if (ft_strcmp(cmd, "env") == 0)
-		builtin_env(env);
-	if (ft_strcmp(cmd, "exit") == 0)
-		builtin_exit(args);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		builtin_pwd();
-	if (ft_strcmp(cmd, "unset") == 0)
-		builtin_unset(env);
+		status = builtin_echo(args);
+	else if (ft_strcmp(cmd, "env") == 0)
+		status = builtin_env(*env); // Pass the single pointer
+	else if (ft_strcmp(cmd, "exit") == 0)
+		status = builtin_exit(args);
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		status = builtin_pwd();
+	else if (ft_strcmp(cmd, "cd") == 0)
+		status = builtin_cd(args, env);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		status = builtin_unset(args, env);
+	else if (ft_strcmp(cmd, "export") == 0)
+		status = builtin_export(args, env);
 	if (is_in_pipe)
-		exit(SUCCESS);
+		exit(status);
+	g_signal_received = status;
 }
 
-void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx)
+static void	child_process(t_cmd_node *node, int pipes[][2], 
+						int cmd_count, t_env_lst **env, int idx)
 {
-	char **envp;
-	pid_t pid; 
-	
-	
-	if (is_builtin(node->args[0]) && cmd_count == 1)
-	{
-		execute_builtin(node->args[0], node->args, env, false); 
-		return; 
-	}
+	char	**envp;
+	char	*cmd_path;
 
-	pid = fork(); 
-	if (pid == -1);
+	setup_child_signals();
+	if (cmd_count > 1)
+		setup_pipes(pipes, cmd_count - 1, idx);
+	setup_redirections(node->redirections);
+	if (is_builtin(node->args[0]))
 	{
-		perror("fork"); 
-		g_exit_status = 1; 
-		return; 
+		execute_builtin(node->args[0], node->args, env, true);
 	}
-	if(pid == 0)
+	else
 	{
-		setupt_child_signals(); 
-		if(cmd_count > 1)
-			setup_pipes(pipes, cmd_count - 1, idx); 
-		setup_redirections(node->redirections); 
-
-		if(is_builtin(node->args[0]))
-		{
-			execute_builtin(node->args[0], node->args[0], envp);
-		}
-		else 
-		{
-			envp = env_lst_to_arr(*env); 
-			char *cmd_path = get_cmd(node->args[0], envp); 
-			perror("execve");
-			exit(127); 
-		}
-		else 
-		ft_putstr_fd("minishell:cmnd not found ", 2); 
-		ft_putstr_fd(node->args[0], 2); 
+		envp = env_lst_to_arr(*env);
+		cmd_path = get_cmd(node->args[0], envp);
+		if (cmd_path)
+			execve(cmd_path, node->args, envp);
+		else
+			execve(node->args[0], node->args, envp);
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(node->args[0], 2);
 		ft_putstr_fd("\n", 2);
-		exit(127); 
+		exit(127);
 	}
 }
 
-	// 	return (execute_builtin(node->args[0], node->args, env, false));
-	// if (fork() == 0)
-	// {
-	// 	setup_pipes(pipes, cmd_count - 1, idx);
-	// 	setup_redirections(node->redirections);
-	// 	if (is_builtin(node->args[0]))
-	// 	{
-	// 		execute_builtin(node->args[0], node->args, env, true);	
-	// 	}
-	// 	else
-	// 	{
-	// 		envp = env_lst_to_arr(*env);
-	// 		execve(get_cmd(node->args[0], envp), node->args, envp);	
-	// 	}
-	// }
+void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,
+				t_env_lst **env, int idx)
+{
+	pid_t	pid;
+
+	if (!node->args || !node->args[0])
+		return;
+	
+	expand_variables(node, *env);
+
+	if (is_builtin(node->args[0]) && cmd_count == 1 && node->redirections == NULL)
+	{
+		execute_builtin(node->args[0], node->args, env, false);
+		return;
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		g_signal_received = 1;
+		return;
+	}
+	if (pid == 0)
+		child_process(node, pipes, cmd_count, env, idx);
 }
 
-void execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int *idx)
+void	execute(t_node *node, int pipes[][2], int cmd_count,
+			t_env_lst **env, int *idx)
 {
 	if (!node)
 		return;
@@ -102,6 +105,6 @@ void execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int *
 	if (node->type == NODE_CMD)
 	{
 		execute_cmd(&node->as.cmd, pipes, cmd_count, env, *idx);
-		(*idx)++;	
+		(*idx)++;
 	}
 }
