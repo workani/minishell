@@ -6,88 +6,94 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 19:53:23 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:44:57 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_signal_received = 0;
 
-void execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
+static void	create_pipes(int pipes[][2], int cmd_count)
 {
-    int i;
-    int idx;
-    int pipes[cmd_count - 1][2];
-    
-    i = 0;
-    idx = 0;
-    while (i < cmd_count - 1)
-    {
-        pipe(pipes[i]);
-        i++;
-    }
-    execute(ast, pipes, cmd_count, env, &idx);
-    close_pipes_and_wait(pipes, cmd_count);
+	int	i;
+
+	i = 0;
+	while (i < cmd_count - 1)
+	{
+		if (pipe(pipes[i]) == -1)
+		{
+			perror("pipe");
+			exit(1);
+		}
+		i++;
+	}
 }
 
-
-void shell_loop(t_env_lst **env)
+static void	execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
 {
-    char *line; 
-    t_token *tokens;
-    t_node *ast;
+	int	idx;
+	int	pipes[cmd_count - 1][2];
 
-    while (1)
-    {
-        line = readline(PROMPT);
-        if(!line)
-        {
-            write(STDOUT_FILENO, "exit\n", 5);
-            break;
-        }
-        if (*line)
-        {
-            add_history(line);
-            tokens = tokenize(line);
-            if(tokens)
-            {
-                ast = parse (tokens); 
-                if (ast)
-                {
-                    int count = get_cmd_count(ast);
-                    execute_ast(ast, count, env);
-                }
-                free_tokens(tokens);
-            }
-        }
-        free(line);
-    }
+	if (cmd_count <= 0)
+		return;
+	idx = 0;
+	if (cmd_count > 1)
+		create_pipes(pipes, cmd_count);
+	execute(ast, pipes, cmd_count, env, &idx);
+	close_pipes_and_wait(pipes, cmd_count);
 }
 
-int main (int argc, char **argv, char **envp)
+static void	process_line(char *line, t_env_lst **env)
 {
-    (void) argc; 
-    (void) argv;
-    t_env_lst *env;
+	t_token	*tokens;
+	t_node	*ast;
+	int		count;
 
-    
-    env = NULL;
-    init_env_lst(&env, envp);
-    shell_loop(&env); 
+	tokens = tokenize(line);
+	if (tokens)
+	{
+		ast = parse(tokens);
+		if (ast)
+		{
+			count = get_cmd_count(ast);
+			execute_ast(ast, count, env);
+			free_ast(ast);
+		}
+		free_tokens(tokens);
+	}
+}
 
-    return (0);
-} 
+static void	shell_loop(t_env_lst **env)
+{
+	char	*line;
 
+	while (1)
+	{
+		setup_interactive_signals();
+		line = readline("minishell$ ");
+		if (!line)
+		{
+			write(STDOUT_FILENO, "exit\n", 5);
+			exit(g_signal_received);
+		}
+		if (*line)
+		{
+			add_history(line);
+			process_line(line, env);
+		}
+		free(line);
+	}
+}
 
-//int main (int argc, char **argv, char **envp)
-//{
-//    (void) argc; 
-//    (void) argv;
-//    t_env_lst *env = NULL;
+int	main(int argc, char **argv, char **envp)
+{
+	t_env_lst	*env;
 
-//    init_env_lst(&env, envp);
-//    char **new_envp = env
-    
-//    return (0);
-//} 
-        
+	(void)argc;
+	(void)argv;
+	env = NULL;
+	init_env_lst(&env, envp);
+	shell_loop(&env);
+	return (g_signal_received);
+}
