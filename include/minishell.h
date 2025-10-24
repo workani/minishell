@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 13:40:03 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:49:46 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ bool is_builtin(char *cmd);
 bool is_valid_var_name(const char *var);
 
 int builtin_echo(char **args);
-int builtin_env(t_env_lst **env);
-int builtin_unset(t_env_lst **env, char **args);
-int builtin_export(t_env_lst **env, char **args);
+int builtin_env(t_env_lst *env);
+int builtin_unset(char **args, t_env_lst **env);
+int builtin_export(char **args, t_env_lst **env);
 int builtin_exit(char **args);
 int builtin_pwd(void);
 int builtin_cd(char **args, t_env_lst **env);

@@ -6,13 +6,13 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 15:49:37 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 13:42:45 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:50:19 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int builtin_unset(t_env_lst  **env, char **args)
+int builtin_unset(char **args, t_env_lst **env)
 {
 	int i;
 	int exit_status;

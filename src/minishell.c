@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 13:44:57 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:56:01 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	shell_loop(t_env_lst **env)
 	while (1)
 	{
 		setup_interactive_signals();
-		line = readline("minishell$ ");
+		line = readline(PROMPT);
 		if (!line)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);

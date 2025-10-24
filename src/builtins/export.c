@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:21:43 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 13:41:32 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:50:10 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int handle_var(t_env_lst **env, char *var)
 	return (SUCCESS);
 }
 
-int builtin_export(t_env_lst **env, char **args)
+int builtin_export(char **args, t_env_lst **env)
 {
 	int i;
 	int exit_status;
