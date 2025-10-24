@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 14:44:30 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/09/16 13:13:35 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:54:07 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	result = malloc((ft_strlen(s1) + ft_strlen(s2)) + 2);
+	result = malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
 	result_idx = 0;
 	if (result == NULL)
 		return (NULL);
 	ft_append_str(result, &result_idx, (char *)s1);
-	ft_append_str(result, &result_idx, "/");
 	ft_append_str(result, &result_idx, (char *)s2);
 	result[result_idx] = 0;
 	return (result);

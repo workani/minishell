@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:35:03 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/01 14:47:24 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:51:01 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*tokenize(char *input)
 			i++;
 			continue ;
 		}
-		else if (input[i] == '|' | input[i] == '<' || input[i] == '>')
+		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 			new_i = handle_metachar(input, i, &token_list);
 		else if (input[i] == '\'' || input[i] == '\"')
 			new_i = handle_quotes(input, i, &token_list);

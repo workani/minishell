@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:22:35 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/15 17:48:48 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:57:30 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ char	**get_paths(char **envp)
 	return (NULL);
 }
 
+static char *compose_full_cmd(char *path, char *cmd)
+{
+	int i;
+	int len;
+	char *full_cmd;
+
+	i = 0;
+	len = ft_strlen(path) + ft_strlen(cmd) + 2;
+	full_cmd = malloc(len);
+	if (!full_cmd)
+		return (NULL);
+	ft_append_str(full_cmd, &i, path);
+	ft_append_str(full_cmd, &i, "/");
+	ft_append_str(full_cmd, &i, cmd);
+	return (full_cmd);
+}
+
 char	*get_cmd(char *cmd, char **envp)
 {
 	int		i;
@@ -43,7 +60,7 @@ char	*get_cmd(char *cmd, char **envp)
 		return (NULL);
 	while (paths[i])
 	{
-		full_cmd = ft_strjoin(paths[i], cmd);
+		full_cmd = compose_full_cmd(paths[i], cmd);
 		if (access(full_cmd, R_OK | X_OK) != -1)
 		{
 			free(paths);
