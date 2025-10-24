@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:33:40 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/21 12:33:41 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/10/24 14:21:08 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-void	close_unused_pipes(int pipes[][2], int len, 
-					int exception_one, int exception_two)
+void	close_unused_pipes(int pipes[][2], int len, int exception_one,
+		int exception_two)
 {
 	int	i;
 
@@ -79,7 +78,6 @@ void	setup_pipes(int pipes[][2], int pipe_count, int idx)
 	{
 		dup2(pipes[idx - 1][0], STDIN_FILENO);
 		dup2(pipes[idx][1], STDOUT_FILENO);
-		close_unused_pipes(pipes, pipe_count, 
-				pipes[idx - 1][0], pipes[idx][1]);
+		close_unused_pipes(pipes, pipe_count, pipes[idx - 1][0], pipes[idx][1]);
 	}
 }

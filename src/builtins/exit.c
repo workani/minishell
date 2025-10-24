@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 static bool	is_number(char *str)
@@ -35,8 +34,8 @@ static bool	is_number(char *str)
 
 int	builtin_exit(char **args)
 {
-	int			exit_code;
-	long long	num;
+	int exit_code;
+	long long num;
 
 	printf("exit\n");
 	if (!args[1])

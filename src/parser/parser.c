@@ -49,7 +49,7 @@ t_node	*parse(t_token *tokens)
 	return (left);
 }
 
-static t_node *parse_command(t_token **tokens)
+static t_node	*parse_command(t_token **tokens)
 {
 	t_node		*node;
 	t_cmd_node	*cmd_node;
@@ -60,11 +60,11 @@ static t_node *parse_command(t_token **tokens)
 	{
 		if ((*tokens)->type == TOKEN_WORD)
 		{
-			cmd_node->args = add_arg_to_array(cmd_node->args, \
-				ft_strdup((*tokens)->value));
+			cmd_node->args = add_arg_to_array(cmd_node->args,
+					ft_strdup((*tokens)->value));
 		}
-		else if ((*tokens)->type >= TOKEN_REDIR_IN && \
-			(*tokens)->type <= TOKEN_HEREDOC)
+		else if ((*tokens)->type >= TOKEN_REDIR_IN
+			&& (*tokens)->type <= TOKEN_HEREDOC)
 		{
 			if (!parse_redirection(tokens, cmd_node))
 			{
@@ -106,8 +106,8 @@ static bool	parse_redirection(t_token **tokens, t_cmd_node *cmd_node)
 
 static char	**add_arg_to_array(char **args, char *new_arg)
 {
-	int		size;
-	char	**new_args;
+	int size;
+	char **new_args;
 
 	size = 0;
 	if (args)

@@ -10,47 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-static bool should_print_no_new_line(const char *arg)
+static bool	should_print_no_new_line(const char *arg)
 {
-    int i;
+	int	i;
 
-    if (!arg || arg[0] != '-')
-        return false;
-    i = 1;
-    while (arg[i])
-    {
-        if (arg[i] != 'n')
-            return (false);
-        i++;
-    }
-    return (true);
+	if (!arg || arg[0] != '-')
+		return (false);
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
-
-
-int builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
-    int i; 
-    bool print_newline;
+	int i;
+	bool print_newline;
 
-    i = 1; 
-    print_newline = true;
-    while (args[i] && should_print_no_new_line(args[i]))
-    {
-        print_newline = false; 
-        i++;
-    }
-    while (args[i])
-    {
-        printf("%s", args[i]); 
-        if (args[i + 1])
-            printf(" "); 
-        i++;
-    }
-    if (print_newline)
-        printf("\n");
-    return (SUCCESS);
+	i = 1;
+	print_newline = true;
+	while (args[i] && should_print_no_new_line(args[i]))
+	{
+		print_newline = false;
+		i++;
+	}
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (print_newline)
+		printf("\n");
+	return (SUCCESS);
 }

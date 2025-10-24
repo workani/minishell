@@ -36,7 +36,7 @@ static void	execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
 	int	pipes[cmd_count - 1][2];
 
 	if (cmd_count <= 0)
-		return;
+		return ;
 	idx = 0;
 	if (cmd_count > 1)
 		create_pipes(pipes, cmd_count);
@@ -88,7 +88,7 @@ static void	shell_loop(t_env_lst **env)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env_lst	*env;
+	t_env_lst *env;
 
 	(void)argc;
 	(void)argv;

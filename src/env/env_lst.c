@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-char *combine_key_value(t_env_lst *node)
+char	*combine_key_value(t_env_lst *node)
 {
-	int i;
-	int len;
-	char *result;
+	int		i;
+	int		len;
+	char	*result;
 
 	if (!node->key)
 		return (NULL);
@@ -37,13 +37,11 @@ char *combine_key_value(t_env_lst *node)
 	return (result);
 }
 
-
-
-char **env_lst_to_arr(t_env_lst *head)
+char	**env_lst_to_arr(t_env_lst *head)
 {
-	int i;
-	int len;
-	char **envp;
+	int		i;
+	int		len;
+	char	**envp;
 
 	i = 0;
 	len = get_env_lst_size(head);
@@ -61,10 +59,9 @@ char **env_lst_to_arr(t_env_lst *head)
 	return (envp);
 }
 
-
-bool convert_var_to_key_value_pair(char *dst[2], char *var)
+bool	convert_var_to_key_value_pair(char *dst[2], char *var)
 {
-	int		del_idx;
+	int	del_idx;
 
 	del_idx = ft_cst_strchr(var, '=');
 	if (del_idx == -1)
@@ -78,10 +75,10 @@ bool convert_var_to_key_value_pair(char *dst[2], char *var)
 	return (true);
 }
 
-void init_env_lst(t_env_lst **head, char **envp)
+void	init_env_lst(t_env_lst **head, char **envp)
 {
 	int		i;
-	char *key_value[2];
+	char	*key_value[2];
 
 	i = 0;
 	if (!envp)

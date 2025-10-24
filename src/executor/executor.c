@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
-							bool is_in_pipe)
+		bool is_in_pipe)
 {
 	int	status;
 
@@ -37,8 +37,8 @@ static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
 	g_signal_received = status;
 }
 
-static void	child_process(t_cmd_node *node, int pipes[][2], 
-						int cmd_count, t_env_lst **env, int idx)
+static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
+		t_env_lst **env, int idx)
 {
 	char	**envp;
 	char	*cmd_path;
@@ -67,36 +67,35 @@ static void	child_process(t_cmd_node *node, int pipes[][2],
 }
 
 void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,
-				t_env_lst **env, int idx)
+		t_env_lst **env, int idx)
 {
 	pid_t	pid;
 
 	if (!node->args || !node->args[0])
-		return;
-	
+		return ;
 	expand_variables(node, *env);
-
-	if (is_builtin(node->args[0]) && cmd_count == 1 && node->redirections == NULL)
+	if (is_builtin(node->args[0]) && cmd_count == 1
+		&& node->redirections == NULL)
 	{
 		execute_builtin(node->args[0], node->args, env, false);
-		return;
+		return ;
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		g_signal_received = 1;
-		return;
+		return ;
 	}
 	if (pid == 0)
 		child_process(node, pipes, cmd_count, env, idx);
 }
 
-void	execute(t_node *node, int pipes[][2], int cmd_count,
-			t_env_lst **env, int *idx)
+void	execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env,
+		int *idx)
 {
 	if (!node)
-		return;
+		return ;
 	if (node->type == NODE_PIPE)
 	{
 		execute(node->as.pipe.left, pipes, cmd_count, env, idx);

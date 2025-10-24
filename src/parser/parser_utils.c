@@ -12,21 +12,19 @@
 
 #include "minishell.h"
 
-
-void print_ast(t_node *node, int count)
+void	print_ast(t_node *node, int count)
 {
-    if (!node)
-        return;
-    
-    if (node->type == NODE_PIPE)
-    {
-        printf("pipe\n");
-        print_ast(node->as.pipe.left, count + 1);
-        print_ast(node->as.pipe.right, count + 1);
-    }
-    else
-    {
-        
-        printf("[value: %s | count: %d]\n", node->as.cmd.args[0], count);
-    }
+	if (!node)
+		return ;
+
+	if (node->type == NODE_PIPE)
+	{
+		printf("pipe\n");
+		print_ast(node->as.pipe.left, count + 1);
+		print_ast(node->as.pipe.right, count + 1);
+	}
+	else
+	{
+		printf("[value: %s | count: %d]\n", node->as.cmd.args[0], count);
+	}
 }

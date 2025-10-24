@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 #include <readline/readline.h>
 
@@ -71,8 +70,8 @@ void	setup_parent_exec_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	struct sigaction	sa_heredoc;
-	struct sigaction	sa_quit;
+	struct sigaction sa_heredoc;
+	struct sigaction sa_quit;
 
 	sigemptyset(&sa_heredoc.sa_mask);
 	sa_heredoc.sa_handler = handle_sigint_heredoc;

@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-int builtin_unset(char **args, t_env_lst **env)
+int	builtin_unset(char **args, t_env_lst **env)
 {
-	int i;
-	int exit_status;
+	int	i;
+	int	exit_status;
 
 	if (!args || !args[1])
 	{
 		return (SUCCESS);
-	}	
+	}
 	i = 1;
 	exit_status = SUCCESS;
 	while (args[i])
@@ -30,7 +30,7 @@ int builtin_unset(char **args, t_env_lst **env)
 			printf("minishell: unset: `%s': not a valid identifier\n", args[i]);
 			exit_status = FAILURE;
 			i++;
-			continue;
+			continue ;
 		}
 		delete_env_node(env, args[i]);
 		i++;

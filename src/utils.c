@@ -33,9 +33,9 @@ char	**get_paths(char **envp)
 
 char	*get_cmd(char *cmd, char **envp)
 {
-	int i;
-	char *full_cmd;
-	char **paths;
+	int		i;
+	char	*full_cmd;
+	char	**paths;
 
 	i = 0;
 	paths = get_paths(envp);
@@ -54,17 +54,17 @@ char	*get_cmd(char *cmd, char **envp)
 	}
 	return (NULL);
 }
-void free_string_array(char **arr)
+void	free_string_array(char **arr)
 {
-    int i; 
+	int i;
 
-    if (!arr)
-        return ; 
-    i = 0; 
-    while (arr[i])
-    {
-        free (arr[i]);
-        i++;
-    }
-    free(arr);
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

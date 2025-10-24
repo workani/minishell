@@ -12,21 +12,21 @@
 
 #include "minishell.h"
 
-static void free_env_node(t_env_lst *node)
+static void	free_env_node(t_env_lst *node)
 {
 	free(node->key);
 	free(node->value);
 	free(node);
 }
 
-void add_env_node(t_env_lst **head, char *key, char *value)
+void	add_env_node(t_env_lst **head, char *key, char *value)
 {
-	t_env_lst *cur;
-	t_env_lst *node;
+	t_env_lst	*cur;
+	t_env_lst	*node;
 
 	node = malloc(sizeof(t_env_lst));
 	if (!node)
-		return;
+		return ;
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
@@ -43,13 +43,13 @@ void add_env_node(t_env_lst **head, char *key, char *value)
 	cur->next = node;
 }
 
-void delete_env_node(t_env_lst **head, char *key)
+void	delete_env_node(t_env_lst **head, char *key)
 {
-	t_env_lst *current;
-	t_env_lst *tmp;
-	
+	t_env_lst	*current;
+	t_env_lst	*tmp;
+
 	if (!(*head))
-		return;
+		return ;
 	current = *head;
 	if (current->key && ft_strcmp(key, current->key) == 0)
 	{
@@ -70,9 +70,9 @@ void delete_env_node(t_env_lst **head, char *key)
 	}
 }
 
-int get_env_lst_size(t_env_lst *head)
+int	get_env_lst_size(t_env_lst *head)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (head)
@@ -84,7 +84,7 @@ int get_env_lst_size(t_env_lst *head)
 	return (size);
 }
 
-void print_env_lst(t_env_lst *head)
+void	print_env_lst(t_env_lst *head)
 {
 	while (head)
 	{
@@ -92,7 +92,7 @@ void print_env_lst(t_env_lst *head)
 		head = head->next;
 	}
 }
-void add_or_update_env_var(t_env_lst **head, char *key, char *value)
+void	add_or_update_env_var(t_env_lst **head, char *key, char *value)
 {
 	t_env_lst *cur;
 

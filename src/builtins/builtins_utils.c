@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-bool is_builtin(char *cmd)
+bool	is_builtin(char *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (builtins[i] != NULL)
@@ -26,10 +26,10 @@ bool is_builtin(char *cmd)
 	return (false);
 }
 
-bool is_valid_var_name(const char *var)
+bool	is_valid_var_name(const char *var)
 {
 	int i;
-	
+
 	if (!var || (!ft_isalpha(var[0]) && var[0] != '_'))
 		return (false);
 	i = 1;

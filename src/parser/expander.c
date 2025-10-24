@@ -1,31 +1,31 @@
 #include "minishell.h"
 
-static char *get_env_value(const char *var_name, t_env_lst *env);
+static char	*get_env_value(const char *var_name, t_env_lst *env);
 
-static char *handle_dollar(char **arg_ptr, t_env_lst *env)
+static char	*handle_dollar(char **arg_ptr, t_env_lst *env)
 {
-    char *var_name;
-    char *var_value;
-    int i; 
-    char *temp;
+	char	*var_name;
+	char	*var_value;
+	int		i;
+	char	*temp;
 
-    (*arg_ptr)++;
-    if(**arg_ptr == '?')
-    {
-        (*arg_ptr)++;
-    return (ft_itoa(g_signal_received));
-    }
-    i = 0; 
-    while(ft_isalnum((*arg_ptr)[i]) || (*arg_ptr)[i] == '_')
-        i++;
-    var_name = ft_substr(*arg_ptr, 0, i);
-    *arg_ptr += i;
-    var_value = get_env_value(var_name, env);
-    free(var_name);
-    if(!var_value)
-        return (ft_strdup(""));
-    temp = ft_strdup(var_value);
-    return (temp);
+	(*arg_ptr)++;
+	if (**arg_ptr == '?')
+	{
+		(*arg_ptr)++;
+		return (ft_itoa(g_signal_received));
+	}
+	i = 0;
+	while (ft_isalnum((*arg_ptr)[i]) || (*arg_ptr)[i] == '_')
+		i++;
+	var_name = ft_substr(*arg_ptr, 0, i);
+	*arg_ptr += i;
+	var_value = get_env_value(var_name, env);
+	free(var_name);
+	if (!var_value)
+		return (ft_strdup(""));
+	temp = ft_strdup(var_value);
+	return (temp);
 }
 
 static char	*expand_argument(char *arg, t_env_lst *env)
@@ -78,7 +78,7 @@ void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env)
 
 static char	*get_env_value(const char *var_name, t_env_lst *env)
 {
-	int	len;
+	int len;
 
 	len = ft_strlen(var_name);
 	while (env)

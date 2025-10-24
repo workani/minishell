@@ -75,7 +75,7 @@ HEADERS := $(INC_DIR)/minishell.h $(INC_DIR)/types.h $(INC_DIR)/defines.h
 all: $(NAME)
 
 $(NAME): $(LIBFT_ARCHIVE) $(OBJS)
-	@echo "$(MAGENTA)🛠  Linking $@...$(RESET)"
+	@echo "$(MAGENTA)🔗  Linking $@...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_ARCHIVE) $(LDFLAGS) -o $@
 	@echo "$(GREEN)✅  Build succeeded$(RESET)"
 

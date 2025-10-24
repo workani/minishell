@@ -67,12 +67,12 @@ static void	heredoc_loop(int fd[2], char *del)
 		{
 			if (line)
 				free(line);
-			break;
+			break ;
 		}
 		if (ft_strcmp(line, del) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
@@ -82,15 +82,15 @@ static void	heredoc_loop(int fd[2], char *del)
 
 void	redir_heredoc(char *del)
 {
-	int	fd[2];
-	int	original_stdin;
+	int fd[2];
+	int original_stdin;
 
 	original_stdin = dup(STDIN_FILENO);
 	setup_heredoc_signals();
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
-		return;
+		return ;
 	}
 	heredoc_loop(fd, del);
 	close(fd[1]);

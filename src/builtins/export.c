@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
-
-static int print_error(char *var)
+static int	print_error(char *var)
 {
 	printf("minishell: export: `%s': not a valid identifier\n", var);
 	return (FAILURE);
 }
 
-static void print_env(t_env_lst *head)
+static void	print_env(t_env_lst *head)
 {
 	while (head != NULL)
 	{
@@ -28,13 +27,13 @@ static void print_env(t_env_lst *head)
 		else
 			printf("declare -x %s=\"\"\n", head->key);
 		head = head->next;
-	}                   
+	}
 }
 
-static int handle_var(t_env_lst **env, char *var)
+static int	handle_var(t_env_lst **env, char *var)
 {
-	char *key_value[2];
-	
+	char	*key_value[2];
+
 	if (!convert_var_to_key_value_pair(key_value, var))
 	{
 		if (!is_valid_var_name(var))
@@ -49,10 +48,10 @@ static int handle_var(t_env_lst **env, char *var)
 	return (SUCCESS);
 }
 
-int builtin_export(char **args, t_env_lst **env)
+int	builtin_export(char **args, t_env_lst **env)
 {
-	int i;
-	int exit_status;
+	int	i;
+	int	exit_status;
 
 	if (!args || !args[1])
 	{
