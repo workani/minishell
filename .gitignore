@@ -16,3 +16,5 @@ checker_OS
 playgrounds
 
 *.txt
+
+minishell_tester/
