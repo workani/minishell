@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-static char	*get_env_value(const char *var_name, t_env_lst *env);
-
 static char	*handle_dollar(char **arg_ptr, t_env_lst *env)
 {
 	char	*var_name;
@@ -74,21 +72,4 @@ void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env)
 		}
 		i++;
 	}
-}
-
-static char	*get_env_value(const char *var_name, t_env_lst *env)
-{
-	int len;
-
-	len = ft_strlen(var_name);
-	while (env)
-	{
-		if (ft_strncmp(env->value, var_name, len) == 0)
-		{
-			if (env->value[len] == '=')
-				return (env->value + len + 1);
-		}
-		env = env->next;
-	}
-	return (NULL);
 }

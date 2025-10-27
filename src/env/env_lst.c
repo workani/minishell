@@ -75,6 +75,18 @@ bool	convert_var_to_key_value_pair(char *dst[2], char *var)
 	return (true);
 }
 
+char	*get_env_value(const char *key, t_env_lst *head)
+{
+	while (head != NULL)
+	{
+		if (ft_strcmp(key, head->key) == 0)
+			return (head->value);
+		head = head->next;
+	}
+	return (NULL);
+}
+
+
 void	init_env_lst(t_env_lst **head, char **envp)
 {
 	int		i;
