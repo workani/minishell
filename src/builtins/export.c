@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:21:43 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 13:50:10 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 15:38:22 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	handle_var(t_env_lst **env, char *var)
 {
 	char	*key_value[2];
 
+	if (ft_strcmp(var, "=") == 0)
+		return (print_error("="));
 	if (!convert_var_to_key_value_pair(key_value, var))
 	{
 		if (!is_valid_var_name(var))
@@ -42,8 +44,9 @@ static int	handle_var(t_env_lst **env, char *var)
 	}
 	if (!is_valid_var_name(key_value[0]))
 	{
-		return (print_error(var));
+		return (print_error(key_value[0]));
 	}
+	printf("key=%s | value=%s\n", key_value[0], key_value[1]);
 	add_or_update_env_var(env, key_value[0], key_value[1]);
 	return (SUCCESS);
 }
