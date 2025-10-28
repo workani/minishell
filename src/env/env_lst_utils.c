@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/22 18:40:47 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:47:51 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ void	add_or_update_env_var(t_env_lst **head, char *key, char *value)
 	{
 		if (ft_strcmp(key, cur->key) == 0)
 		{
-			cur->value = value;
+			if (cur->value)
+				free(cur->value);
+			cur->value = ft_strdup(value);
 			return ;
 		}
 		cur = cur->next;
