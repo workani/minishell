@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/27 20:19:03 by workani          ###   ########.fr       */
+/*   Updated: 2025/10/28 16:42:33 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_token *tokenize (char *input);
 int handle_word(char *input, int i, t_token **token_list);
 int handle_metachar(char *input, int i, t_token **token_list);
 int handle_quotes(char *input, int i, t_token **token_list);
+char *expand_line(char *line, t_env_lst *env);
 
 // Token functions
 t_token *new_token(char *value, t_token_type type);

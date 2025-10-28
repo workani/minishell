@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 13:44:35 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:45:57 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,18 @@ static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	setup_redirections(node->redirections);
 	if (is_builtin(node->args[0]))
 	{
-		execute_builtin(node->args[0], node->args, env, true);
+		return (execute_builtin(node->args[0], node->args, env, true));
 	}
+	envp = env_lst_to_arr(*env);
+	cmd_path = get_cmd(node->args[0], envp);
+	if (cmd_path)
+		execve(cmd_path, node->args, envp);
 	else
 	{
-		envp = env_lst_to_arr(*env);
-		cmd_path = get_cmd(node->args[0], envp);
-		if (cmd_path)
-			execve(cmd_path, node->args, envp);
-		else
-			execve(node->args[0], node->args, envp);
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putstr_fd(node->args[0], 2);
 		ft_putstr_fd("\n", 2);
-		exit(127);
+		exit(127);	
 	}
 }
 
@@ -73,7 +71,6 @@ void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,
 
 	if (!node->args || !node->args[0])
 		return ;
-	expand_variables(node, *env);
 	if (is_builtin(node->args[0]) && cmd_count == 1
 		&& node->redirections == NULL)
 	{

@@ -1,75 +1,114 @@
 #include "minishell.h"
 
-static char	*handle_dollar(char **arg_ptr, t_env_lst *env)
+typedef struct s_buffer
 {
-	char	*var_name;
-	char	*var_value;
-	int		i;
-	char	*temp;
+    char    *data;
+    size_t  len;
+    size_t  capacity;
+}   t_buffer;
 
-	(*arg_ptr)++;
-	if (**arg_ptr == '?')
-	{
-		(*arg_ptr)++;
-		return (ft_itoa(g_signal_received));
-	}
-	i = 0;
-	while (ft_isalnum((*arg_ptr)[i]) || (*arg_ptr)[i] == '_')
-		i++;
-	var_name = ft_substr(*arg_ptr, 0, i);
-	*arg_ptr += i;
-	var_value = get_env_value(var_name, env);
-	free(var_name);
-	if (!var_value)
-		return (ft_strdup(""));
-	temp = ft_strdup(var_value);
-	return (temp);
+static void init_buffer(t_buffer *buf, size_t initial_capacity)
+{
+    buf->data = malloc(initial_capacity);
+    if (!buf->data)
+        exit(EXIT_FAILURE); 
+    buf->data[0] = '\0';
+    buf->len = 0;
+    buf->capacity = initial_capacity;
 }
 
-static char	*expand_argument(char *arg, t_env_lst *env)
+static void append_char(t_buffer *buf, char c)
 {
-	char	*new_arg;
-	char	*temp;
-	char	*dollar_part;
-
-	new_arg = ft_strdup("");
-	while (*arg)
-	{
-		if (*arg == '$')
-		{
-			dollar_part = handle_dollar(&arg, env);
-			temp = ft_strjoin(new_arg, dollar_part);
-			free(new_arg);
-			free(dollar_part);
-			new_arg = temp;
-		}
-		else
-		{
-			temp = ft_strjoin(new_arg, (char[]){*arg, 0});
-			free(new_arg);
-			new_arg = temp;
-			arg++;
-		}
-	}
-	return (new_arg);
+    if (buf->len + 1 >= buf->capacity)
+    {
+        buf->capacity *= 2;
+        buf->data = realloc(buf->data, buf->capacity);
+        if (!buf->data)
+            exit(EXIT_FAILURE);
+    }
+    buf->data[buf->len++] = c;
+    buf->data[buf->len] = '\0';
 }
 
-void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env)
+static void append_str(t_buffer *buf, const char *str)
 {
-	int		i;
-	char	*original_arg;
+    if (!str)
+        return;
+    while (*str)
+        append_char(buf, *str++);
+}
 
-	i = 0;
-	if (!cmd_node->args)
-		return ;
-	while (cmd_node->args[i])
-	{
-		if (ft_strchr(cmd_node->args[i], '$'))
-		{
-			original_arg = cmd_node->args[i];
-			cmd_node->args[i] = expand_argument(original_arg, env);
-			free(original_arg);
-		}
-		i++;
-	}
+static void handle_variable_expansion(char **input_ptr, t_buffer *buf, t_env_lst *env)
+{
+    char *input = *input_ptr;
+    char *var_name;
+    char *var_value;
+    int len = 0;
+
+    input++; 
+    if (input[0] == '?')
+    {
+        var_value = ft_itoa(g_signal_received); 
+        append_str(buf, var_value);
+        free(var_value);
+        *input_ptr += 2; 
+        return;
+    }
+    
+    while (ft_isalnum(input[len]) || input[len] == '_')
+        len++;
+
+    if (len == 0) 
+    {
+        append_char(buf, '$');
+        *input_ptr += 1;
+        return;
+    }
+
+    var_name = ft_substr(input, 0, len);
+    var_value = get_env_value(var_name, env);
+    if (var_value)
+        append_str(buf, var_value);
+    
+    free(var_name);
+    *input_ptr += (len + 1); 
+}
+
+char *expand_line(char *line, t_env_lst *env)
+{
+    t_buffer buf;
+    char quote_type = 0; 
+
+    init_buffer(&buf, ft_strlen(line) + 128);
+    while (*line)
+    {
+        if (quote_type) 
+        {
+            if (*line == quote_type)
+                quote_type = 0; 
+            else if (*line == '$' && quote_type == '"')
+                handle_variable_expansion(&line, &buf, env);
+            else
+            {
+                append_char(&buf, *line);
+                line++;
+            }
+        }
+        else 
+        {
+            if (*line == '\'' || *line == '"')
+            {
+                quote_type = *line; 
+                line++;
+            }
+            else if (*line == '$')
+                handle_variable_expansion(&line, &buf, env);
+            else
+            {
+                append_char(&buf, *line);
+                line++;
+            }
+        }
+    }
+    return (buf.data);
 }

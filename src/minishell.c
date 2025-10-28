@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/24 15:35:04 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:39:12 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,17 @@ static void	process_line(char *line, t_env_lst **env)
 {
 	t_token	*tokens;
 	t_node	*ast;
+	char    *expanded_line;
 	int		count;
 
-	tokens = tokenize(line);
+    expanded_line = expand_line(line, *env);
+    if (!expanded_line)
+    {
+		return;
+	}
+	tokens = tokenize(expanded_line);
+    free(expanded_line); 
+
 	if (tokens)
 	{
 		ast = parse(tokens);
