@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 16:03:05 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/20 20:09:43 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:47:40 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ int		ft_putchar_fd(char c, int fd);
 int		ft_putstr_fd(char *s, int fd);
 int		ft_putendl_fd(char *s, int fd);
 int		ft_putnbr_fd(int n, int fd);
-int		putuint(unsigned long n);
-int		puthex(uintptr_t n, bool is_upper);
-int		putptr(void *ptr);
-int		putstr(char *str);
+int		putuint(unsigned long n, int fd);
+int		puthex(uintptr_t n, bool is_upper, int fd);
+int		putptr(void *ptr, int fd);
+int		putstr(char *str, int fd);
+int		print_placeholder(char placeholder, va_list *args, int fd);
 int		ft_printf(const char *str, ...);
-int		ft_printf(const char *str, ...);
+int		ft_printf_fd(int fd, const char *str, ...);
 
 #endif

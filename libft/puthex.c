@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 22:33:25 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/06/23 14:30:21 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:45:44 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	itohex(char dst[], uintptr_t u_src, bool is_upper)
 	return (i);
 }
 
-int	puthex(uintptr_t n, bool is_upper)
+int	puthex(uintptr_t n, bool is_upper, int fd)
 {
 	int		i;
 	int		count;
@@ -39,9 +39,9 @@ int	puthex(uintptr_t n, bool is_upper)
 
 	count = 0;
 	if (n == 0)
-		return (ft_putchar_fd('0', 1));
+		return (ft_putchar_fd('0', fd));
 	i = itohex(hex_nbr, n, is_upper);
 	while (i--)
-		count += ft_putchar_fd(hex_nbr[i], 1);
+		count += ft_putchar_fd(hex_nbr[i], fd);
 	return (count);
 }

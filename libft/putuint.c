@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:59:04 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/06/23 14:30:28 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:45:24 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	uitostr(char dst[], unsigned long u_src)
 	return (i);
 }
 
-int	putuint(unsigned long n)
+int	putuint(unsigned long n, int fd)
 {
 	int		i;
 	int		count;
@@ -34,9 +34,9 @@ int	putuint(unsigned long n)
 
 	count = 0;
 	if (n == 0)
-		return (ft_putchar_fd('0', 1));
+		return (ft_putchar_fd('0', fd));
 	i = uitostr(nbr_str, n);
 	while (i--)
-		count += ft_putchar_fd(nbr_str[i], 1);
+		count += ft_putchar_fd(nbr_str[i], fd);
 	return (count);
 }

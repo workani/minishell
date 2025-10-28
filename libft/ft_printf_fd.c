@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putptr.c                                           :+:      :+:    :+:   */
+/*   ft_printf_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/20 15:55:31 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 17:46:16 by dklepenk         ###   ########.fr       */
+/*   Created: 2025/10/28 17:41:36 by dklepenk          #+#    #+#             */
+/*   Updated: 2025/10/28 17:43:34 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	putptr(void *ptr, int fd)
+int	ft_printf_fd(int fd, const char *str, ...)
 {
-	int			count;
-	uintptr_t	u_ptr;
+	int		i;
+	int		count;
+	va_list	args;
 
-	if (!ptr)
-		return (putstr("(nil)", fd));
-	u_ptr = (uintptr_t)ptr;
-	count = putstr("0x", fd);
-	count += puthex(u_ptr, false, fd);
+	i = 0;
+	count = 0;
+	va_start(args, str);
+	while (str[i])
+	{
+		if (str[i] == '%')
+		{
+			count += print_placeholder(str[i + 1], &args, fd);
+			i++;
+		}
+		else
+			count += ft_putchar_fd(str[i], fd);
+		i++;
+	}
 	return (count);
 }
