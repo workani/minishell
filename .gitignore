@@ -17,4 +17,8 @@ playgrounds
 
 *.txt
 
+# Ignore unit tester
 minishell_tester
+
+# Ignore MacOS-specific files
+.DS_STORE
