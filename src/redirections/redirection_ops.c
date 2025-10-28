@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_ops.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:35:45 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 12:32:36 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:11:15 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ static void	heredoc_loop(int fd[2], char *del)
 void	redir_heredoc(char *del)
 {
 	int fd[2];
-	int original_stdin;
 
-	original_stdin = dup(STDIN_FILENO);
 	setup_heredoc_signals();
 	if (pipe(fd) == -1)
 	{
@@ -97,8 +95,6 @@ void	redir_heredoc(char *del)
 	if (g_signal_received != 130)
 		dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	dup2(original_stdin, STDIN_FILENO);
-	close(original_stdin);
 	setup_interactive_signals();
 	if (g_signal_received == 130)
 		exit(130);

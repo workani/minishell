@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 18:28:06 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:02:35 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
 		exit(status);
 	g_signal_received = status;
 }
+
 
 static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 		t_env_lst **env, int idx)
