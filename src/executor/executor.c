@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 16:45:57 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:28:06 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
 
 static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 		t_env_lst **env, int idx)
-{
+{	
 	char	**envp;
 	char	*cmd_path;
 
@@ -55,13 +55,10 @@ static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	cmd_path = get_cmd(node->args[0], envp);
 	if (cmd_path)
 		execve(cmd_path, node->args, envp);
-	else
-	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(node->args[0], 2);
-		ft_putstr_fd("\n", 2);
-		exit(127);	
-	}
+	else  
+		execve(node->args[0], node->args, envp);
+	ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", node->args[0]);
+	exit(127);	
 }
 
 void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,

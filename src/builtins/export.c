@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:21:43 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 15:38:22 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:51:09 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	print_error(char *var)
 {
-	printf("minishell: export: `%s': not a valid identifier\n", var);
+	ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", var);
 	return (FAILURE);
 }
 
@@ -46,7 +46,6 @@ static int	handle_var(t_env_lst **env, char *var)
 	{
 		return (print_error(key_value[0]));
 	}
-	printf("key=%s | value=%s\n", key_value[0], key_value[1]);
 	add_or_update_env_var(env, key_value[0], key_value[1]);
 	return (SUCCESS);
 }
