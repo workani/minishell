@@ -56,15 +56,23 @@ int handle_metachar(char *input, int i, t_token **token_list)
     return (i + len);
 }
 
-
 int handle_word(char *input, int i, t_token **token_list)
 {
-    int start;
-    char *val; 
+    int		start;
+    char	*val;
+    char	quote;
 
     start = i;
-    while (input[i] && !is_whitespace(input[i]) && !is_metachar(input[i]))
+    quote = 0;
+    while (input[i])
     {
+        if (quote && input[i] == quote)
+            quote = 0;
+        else if (!quote && (input[i] == '\'' || input[i] == '"'))
+            quote = input[i];
+        else if (!quote && (is_whitespace(input[i]) 
+            || is_metachar(input[i])))
+            break ;
         i++;
     }
     val = ft_substr(input, start, i - start);

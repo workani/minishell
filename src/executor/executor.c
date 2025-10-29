@@ -37,7 +37,6 @@ static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
 	g_signal_received = status;
 }
 
-
 static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 		t_env_lst **env, int idx)
 {	
@@ -58,7 +57,8 @@ static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 		execve(cmd_path, node->args, envp);
 	else  
 		execve(node->args[0], node->args, envp);
-	ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", node->args[0]);
+	ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", 
+		node->args[0]);
 	exit(127);	
 }
 
@@ -67,6 +67,7 @@ void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,
 {
 	pid_t	pid;
 
+	expand_variables(node, *env);
 	if (!node->args || !node->args[0])
 		return ;
 	if (is_builtin(node->args[0]) && cmd_count == 1

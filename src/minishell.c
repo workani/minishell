@@ -48,17 +48,9 @@ static void	process_line(char *line, t_env_lst **env)
 {
 	t_token	*tokens;
 	t_node	*ast;
-	char    *expanded_line;
 	int		count;
 
-    expanded_line = expand_line(line, *env);
-    if (!expanded_line)
-    {
-		return;
-	}
-	tokens = tokenize(expanded_line);
-    free(expanded_line); 
-
+	tokens = tokenize(line);
 	if (tokens)
 	{
 		ast = parse(tokens);

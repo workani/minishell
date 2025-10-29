@@ -38,76 +38,95 @@ static void append_str(t_buffer *buf, const char *str)
         append_char(buf, *str++);
 }
 
-static void handle_variable_expansion(char **input_ptr, t_buffer *buf, t_env_lst *env)
+static int get_var_len(char *str)
 {
-    char *input = *input_ptr;
-    char *var_name;
-    char *var_value;
-    int len = 0;
+    int len;
 
-    input++; 
-    if (input[0] == '?')
-    {
-        var_value = ft_itoa(g_signal_received); 
-        append_str(buf, var_value);
-        free(var_value);
-        *input_ptr += 2; 
-        return;
-    }
-    
-    while (ft_isalnum(input[len]) || input[len] == '_')
+    len = 0;
+    while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
         len++;
+    return (len);
+}
 
-    if (len == 0) 
+static void expand_exit_status(char **line, t_buffer *buf)
+{
+    char *status_str;
+
+    status_str = ft_itoa(g_signal_received);
+    append_str(buf, status_str);
+    free(status_str);
+    (*line) += 2;
+}
+
+static void expand_variable(char **line, t_buffer *buf, t_env_lst *env)
+{
+    char    *var_name;
+    char    *var_value;
+    int     len;
+
+    (*line)++;
+    if (**line == '?')
+        return (expand_exit_status(line, buf));
+    len = get_var_len(*line);
+    if (len == 0)
     {
         append_char(buf, '$');
-        *input_ptr += 1;
-        return;
+        return ;
     }
-
-    var_name = ft_substr(input, 0, len);
+    var_name = ft_substr(*line, 0, len);
     var_value = get_env_value(var_name, env);
     if (var_value)
         append_str(buf, var_value);
-    
     free(var_name);
-    *input_ptr += (len + 1); 
+    (*line) += len;
+}
+
+static void process_single_quote(char **line, t_buffer *buf)
+{
+    (*line)++;
+    while (**line && **line != '\'')
+    {
+        append_char(buf, **line);
+        (*line)++;
+    }
+    if (**line == '\'')
+        (*line)++;
+}
+
+static void process_double_quote(char **line, t_buffer *buf, t_env_lst *env)
+{
+    (*line)++;
+    while (**line && **line != '"')
+    {
+        if (**line == '$')
+            expand_variable(line, buf, env);
+        else
+        {
+            append_char(buf, **line);
+            (*line)++;
+        }
+    }
+    if (**line == '"')
+        (*line)++;
 }
 
 char *expand_line(char *line, t_env_lst *env)
 {
     t_buffer buf;
-    char quote_type = 0; 
 
     init_buffer(&buf, ft_strlen(line) + 128);
     while (*line)
     {
-        if (quote_type) 
+        if (*line == '\'')
+            process_single_quote(&line, &buf);
+        else if (*line == '"')
+            process_double_quote(&line, &buf, env);
+        else if (*line == '$')
+            expand_variable(&line, &buf, env);
+        else
         {
-            if (*line == quote_type)
-                quote_type = 0; 
-            else if (*line == '$' && quote_type == '"')
-                handle_variable_expansion(&line, &buf, env);
-            else
-            {
-                append_char(&buf, *line);
-                line++;
-            }
-        }
-        else 
-        {
-            if (*line == '\'' || *line == '"')
-            {
-                quote_type = *line; 
-                line++;
-            }
-            else if (*line == '$')
-                handle_variable_expansion(&line, &buf, env);
-            else
-            {
-                append_char(&buf, *line);
-                line++;
-            }
+            append_char(&buf, *line);
+            line++;
         }
     }
     return (buf.data);
