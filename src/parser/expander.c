@@ -55,7 +55,7 @@ static void expand_exit_status(char **line, t_buffer *buf)
     status_str = ft_itoa(g_signal_received);
     append_str(buf, status_str);
     free(status_str);
-    (*line) += 2;
+    (*line) += 1;
 }
 
 static void expand_variable(char **line, t_buffer *buf, t_env_lst *env)

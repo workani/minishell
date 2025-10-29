@@ -37,26 +37,48 @@ static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
 	g_signal_received = status;
 }
 
+static int	has_slash(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 		t_env_lst **env, int idx)
 {	
 	char	**envp;
 	char	*cmd_path;
+	int		exec_errno;
 
 	setup_child_signals();
 	if (cmd_count > 1)
 		setup_pipes(pipes, cmd_count - 1, idx);
 	setup_redirections(node->redirections);
 	if (is_builtin(node->args[0]))
-	{
 		return (execute_builtin(node->args[0], node->args, env, true));
-	}
 	envp = env_lst_to_arr(*env);
-	cmd_path = get_cmd(node->args[0], envp);
+	if (has_slash(node->args[0]))
+		cmd_path = ft_strdup(node->args[0]);
+	else
+		cmd_path = get_cmd(node->args[0], envp);
 	if (cmd_path)
 		execve(cmd_path, node->args, envp);
-	else  
-		execve(node->args[0], node->args, envp);
+	exec_errno = errno;
+	if (has_slash(node->args[0]) && 
+		(exec_errno == EACCES || exec_errno == EISDIR))
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", 
+			node->args[0], strerror(exec_errno));
+		exit(126);
+	}
 	ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", 
 		node->args[0]);
 	exit(127);	

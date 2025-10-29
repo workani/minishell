@@ -50,7 +50,7 @@ int	builtin_exit(char **args)
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(2);
+		exit(255);
 	}
 	num = ft_atoi(args[1]);
 	exit_code = (unsigned char)num;
