@@ -103,16 +103,18 @@ void expand_variables(t_cmd_node *cmd_node, t_env_lst *env);
 
 
 // Redirection functions
-void setup_redirections(t_redir *node);
+void setup_redirections(t_redir *node, t_env_lst *env);  
 void redir_in(char *filename);
 void redir_out(char *filename);
 void redir_append(char *filename);
-void redir_heredoc(char *del);
+void redir_heredoc(char *del, char *content);
 
 // Signal functions
 void setup_interactive_signals(void);
 void setup_child_signals(void);
 void setup_parent_exec_signals(void);
 void setup_heredoc_signals(void);
+
+void collect_all_heredocs(t_node *ast, t_env_lst *env);
 
 #endif

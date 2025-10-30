@@ -53,7 +53,7 @@ MAIN_SRCS        := minishell.c utils.c signals.c
 ENV_SRCS         := env_lst.c env_lst_utils.c
 BUILTINS_SRCS    := builtins.c echo.c env.c exit.c pwd.c cd.c export.c unset.c builtins_utils.c
 LEXER_SRCS       := lexer.c lexer_utils.c token.c
-PARSER_SRCS      := parser.c parser_utils.c ast_utils.c expander.c expander_utils.c
+PARSER_SRCS      := parser.c parser_utils.c ast_utils.c expander.c expander_utils.c heredoc_collector.c
 EXECUTOR_SRCS    := executor.c executor_utils.c get_cmd.c
 REDIRECTIONS_SRCS:= redirections.c redirection_ops.c
 

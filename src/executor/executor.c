@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/30 19:47:44 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:07:52 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	setup_child_signals();
 	if (cmd_count > 1)
 		setup_pipes(pipes, cmd_count - 1, idx);
+	setup_redirections(node->redirections, *env);
 	if (is_builtin(node->args[0]))
 		return (execute_builtin(node->args[0], node->args, env, true));
 	envp = env_lst_to_arr(*env);
@@ -82,9 +83,31 @@ void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **en
 
 	expand_variables(node, *env);
 	if (!node->args || !node->args[0])
+	{
+		if (node->redirections)
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				g_signal_received = 1;
+				return;
+			}
+			if (pid == 0)
+			{
+				setup_child_signals();
+				setup_redirections(node->redirections, *env);
+				exit(0);
+			}
+		}
 		return;
-	if (is_builtin(node->args[0]) && cmd_count == 1)
-		return (execute_builtin(node->args[0], node->args, env, false));
+	}
+	if (is_builtin(node->args[0]) && cmd_count == 1
+		&& node->redirections == NULL)
+	{
+		execute_builtin(node->args[0], node->args, env, false);
+		return ;
+	}
 	pid = fork();
 	if (pid == -1)
 	{
