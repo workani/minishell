@@ -6,114 +6,100 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 19:02:35 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:47:44 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_builtin(char *cmd, char **args, t_env_lst **env,
-		bool is_in_pipe)
+static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_child)
 {
-	int	status;
+	int status;
 
-	status = 0;
-	if (ft_strcmp(cmd, "echo") == 0)
+	if (ft_strcmp("echo", cmd) == 0)
 		status = builtin_echo(args);
-	else if (ft_strcmp(cmd, "env") == 0)
+	else if (ft_strcmp("env", cmd) == 0)
 		status = builtin_env(*env);
-	else if (ft_strcmp(cmd, "exit") == 0)
+	else if (ft_strcmp("exit", cmd) == 0)
 		status = builtin_exit(args);
-	else if (ft_strcmp(cmd, "pwd") == 0)
+	else if (ft_strcmp("pwd", cmd) == 0)
 		status = builtin_pwd();
-	else if (ft_strcmp(cmd, "cd") == 0)
+	else if (ft_strcmp("cd", cmd) == 0)
 		status = builtin_cd(args, env);
-	else if (ft_strcmp(cmd, "unset") == 0)
+	else if (ft_strcmp("unset", cmd) == 0)
 		status = builtin_unset(args, env);
-	else if (ft_strcmp(cmd, "export") == 0)
+	else if (ft_strcmp("export", cmd) == 0)
 		status = builtin_export(args, env);
-	if (is_in_pipe)
+	if (is_child)
 		exit(status);
 	g_signal_received = status;
 }
 
-static int	has_slash(char *str)
+static int handle_exec_errors(char *cmd, int exec_errno)
 {
-	int	i;
+	int exit_code;
 
-	i = 0;
-	while (str[i])
+	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
 	{
-		if (str[i] == '/')
-			return (1);
-		i++;
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
+		exit_code = 126;
 	}
-	return (0);
+	else
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
+		exit_code = 127;
+	}
+	return (exit_code);
 }
 
-static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
-		t_env_lst **env, int idx)
-{	
-	char	**envp;
-	char	*cmd_path;
-	int		exec_errno;
+static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
+						  t_env_lst **env, int idx)
+{
+	int exec_errno;
+	int exit_code;
+	char *full_cmd;
+	char **envp;
 
 	setup_child_signals();
 	if (cmd_count > 1)
 		setup_pipes(pipes, cmd_count - 1, idx);
-	setup_redirections(node->redirections);
 	if (is_builtin(node->args[0]))
 		return (execute_builtin(node->args[0], node->args, env, true));
 	envp = env_lst_to_arr(*env);
-	if (has_slash(node->args[0]))
-		cmd_path = ft_strdup(node->args[0]);
-	else
-		cmd_path = get_cmd(node->args[0], envp);
-	if (cmd_path)
-		execve(cmd_path, node->args, envp);
+	full_cmd = set_cmd(node->args[0], envp);
+	if (full_cmd)
+		execve(full_cmd, node->args, envp);
 	exec_errno = errno;
-	if (has_slash(node->args[0]) && 
-		(exec_errno == EACCES || exec_errno == EISDIR))
-	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", 
-			node->args[0], strerror(exec_errno));
-		exit(126);
-	}
-	ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", 
-		node->args[0]);
-	exit(127);	
+	exit_code = handle_exec_errors(node->args[0], exec_errno);
+	free(full_cmd);
+	free_string_array(envp);
+	exit(exit_code);
 }
 
-void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,
-		t_env_lst **env, int idx)
+void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx)
 {
-	pid_t	pid;
+	pid_t pid;
 
 	expand_variables(node, *env);
 	if (!node->args || !node->args[0])
-		return ;
-	if (is_builtin(node->args[0]) && cmd_count == 1
-		&& node->redirections == NULL)
-	{
-		execute_builtin(node->args[0], node->args, env, false);
-		return ;
-	}
+		return;
+	if (is_builtin(node->args[0]) && cmd_count == 1)
+		return (execute_builtin(node->args[0], node->args, env, false));
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		g_signal_received = 1;
-		return ;
+		return;
 	}
 	if (pid == 0)
 		child_process(node, pipes, cmd_count, env, idx);
 }
 
-void	execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env,
-		int *idx)
+void execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int *idx)
 {
 	if (!node)
-		return ;
+		return;
 	if (node->type == NODE_PIPE)
 	{
 		execute(node->as.pipe.left, pipes, cmd_count, env, idx);

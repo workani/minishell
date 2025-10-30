@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 16:42:33 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:47:51 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@
 // Global variable for signals
 extern volatile sig_atomic_t g_signal_received;
 
-// Utils
+
 char *get_cmd(char *cmd, char **);
+char *set_cmd(char *cmd, char **envp);
+
+// Utils
 void free_string_array(char **arr);
+bool	 has_slash(char *str);
 
 // Environment list functions
 int get_env_lst_size(t_env_lst *head);

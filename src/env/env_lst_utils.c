@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 18:47:51 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:44:54 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,21 @@ int	get_env_lst_size(t_env_lst *head)
 	return (size);
 }
 
-void	print_env_lst(t_env_lst *head)
+void  free_env_lst(t_env_lst **head)
 {
-	while (head)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
+  t_env_lst *tmp;
+  t_env_lst *cur;
+  
+  cur = *head;
+  while (cur != NULL)
+  {
+    tmp = cur;
+    cur = cur->next;
+    free_env_node(tmp);
+  }
+  *head = NULL;
 }
+
 void	add_or_update_env_var(t_env_lst **head, char *key, char *value)
 {
 	t_env_lst *cur;

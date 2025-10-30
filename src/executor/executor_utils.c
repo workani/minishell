@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:33:40 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/24 14:21:08 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:50:07 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,4 @@ void	setup_pipes(int pipes[][2], int pipe_count, int idx)
 		close_unused_pipes(pipes, pipe_count, pipes[idx - 1][0], pipes[idx][1]);
 	}
 }
+
