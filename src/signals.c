@@ -37,7 +37,6 @@ static void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_signal_received = 130;
-	close(STDIN_FILENO);
 	write(STDOUT_FILENO, "\n", 1);
 }
 
