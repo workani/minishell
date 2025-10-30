@@ -23,6 +23,16 @@ static void	handle_sigint_interactive(int sig)
 	rl_redisplay();
 }
 
+static void	handle_sigquit_interactive(int sig)
+{
+	(void)sig;
+	if (rl_line_buffer && rl_end > 0)
+	{
+		write(STDOUT_FILENO, "\nexit\n", 6);
+		exit(131);
+	}
+}
+
 static void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
@@ -41,7 +51,7 @@ void	setup_interactive_signals(void)
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
 	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_handler = handle_sigquit_interactive;
 	sa_quit.sa_flags = 0;
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }

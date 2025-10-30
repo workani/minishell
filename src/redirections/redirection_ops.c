@@ -26,6 +26,8 @@ void	redir_in(char *filename)
 {
 	int	fd;
 
+	if (!filename)
+		return;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		print_redir_err_and_exit(filename);
@@ -37,6 +39,8 @@ void	redir_out(char *filename)
 {
 	int	fd;
 
+	if (!filename)
+		return;
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		print_redir_err_and_exit(filename);
@@ -48,6 +52,8 @@ void	redir_append(char *filename)
 {
 	int	fd;
 
+	if (!filename)
+		return;
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		print_redir_err_and_exit(filename);
@@ -55,47 +61,24 @@ void	redir_append(char *filename)
 	close(fd);
 }
 
-static void	heredoc_loop(int fd[2], char *del)
-{
-	char	*line;
-
-	g_signal_received = 0;
-	while (1)
-	{
-		line = readline("> ");
-		if (g_signal_received == 130 || !line)
-		{
-			if (line)
-				free(line);
-			break ;
-		}
-		if (ft_strcmp(line, del) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		free(line);
-	}
-}
-
-void	redir_heredoc(char *del)
+void	redir_heredoc(char *del, char *content)
 {
 	int fd[2];
 
-	setup_heredoc_signals();
+	if (!del)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		return;
+	}
+	if (!content)
+		return;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		return ;
 	}
-	heredoc_loop(fd, del);
+	write(fd[1], content, ft_strlen(content));
 	close(fd[1]);
-	if (g_signal_received != 130)
-		dup2(fd[0], STDIN_FILENO);
+	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	setup_interactive_signals();
-	if (g_signal_received == 130)
-		exit(130);
 }

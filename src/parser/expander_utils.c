@@ -5,9 +5,11 @@ static int	count_non_empty(char **args)
 	int	i;
 	int	count;
 
+	if (!args)
+		return (0);
 	i = 0;
 	count = 0;
-	while (args && args[i])
+	while (args[i])
 	{
 		if (args[i][0] != '\0')
 			count++;
@@ -23,7 +25,14 @@ static char	**filter_empty_args(char **args)
 	int		j;
 	int		count;
 
+	if (!args)
+		return (NULL);
 	count = count_non_empty(args);
+	if (count == 0)
+	{
+		free(args);
+		return (NULL);
+	}
 	new_args = malloc(sizeof(char *) * (count + 1));
 	if (!new_args)
 		return (NULL);
@@ -48,15 +57,18 @@ void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env)
 	char	*expanded;
 	t_redir	*redir;
 
-	i = 0;
-	while (cmd_node->args && cmd_node->args[i])
+	if (cmd_node->args)
 	{
-		expanded = expand_line(cmd_node->args[i], env);
-		free(cmd_node->args[i]);
-		cmd_node->args[i] = expanded;
-		i++;
+		i = 0;
+		while (cmd_node->args[i])
+		{
+			expanded = expand_line(cmd_node->args[i], env);
+			free(cmd_node->args[i]);
+			cmd_node->args[i] = expanded;
+			i++;
+		}
+		cmd_node->args = filter_empty_args(cmd_node->args);
 	}
-	cmd_node->args = filter_empty_args(cmd_node->args);
 	redir = cmd_node->redirections;
 	while (redir)
 	{

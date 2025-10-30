@@ -61,7 +61,7 @@ static void	child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	setup_child_signals();
 	if (cmd_count > 1)
 		setup_pipes(pipes, cmd_count - 1, idx);
-	setup_redirections(node->redirections);
+	setup_redirections(node->redirections, *env);
 	if (is_builtin(node->args[0]))
 		return (execute_builtin(node->args[0], node->args, env, true));
 	envp = env_lst_to_arr(*env);
@@ -91,7 +91,25 @@ void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count,
 
 	expand_variables(node, *env);
 	if (!node->args || !node->args[0])
-		return ;
+	{
+		if (node->redirections)
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				g_signal_received = 1;
+				return;
+			}
+			if (pid == 0)
+			{
+				setup_child_signals();
+				setup_redirections(node->redirections, *env);
+				exit(0);
+			}
+		}
+		return;
+	}
 	if (is_builtin(node->args[0]) && cmd_count == 1
 		&& node->redirections == NULL)
 	{

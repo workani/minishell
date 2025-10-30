@@ -56,8 +56,12 @@ static void	process_line(char *line, t_env_lst **env)
 		ast = parse(tokens);
 		if (ast)
 		{
-			count = get_cmd_count(ast);
-			execute_ast(ast, count, env);
+			collect_all_heredocs(ast, *env);  
+			if (g_signal_received != 130)     
+			{
+				count = get_cmd_count(ast);
+				execute_ast(ast, count, env);
+			}
 			free_ast(ast);
 		}
 		free_tokens(tokens);

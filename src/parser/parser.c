@@ -90,6 +90,7 @@ static bool	parse_redirection(t_token **tokens, t_cmd_node *cmd_node)
 	redir = malloc(sizeof(t_redir));
 	redir->type = (*tokens)->type;
 	redir->filename = ft_strdup((*tokens)->next->value);
+	redir->heredoc_content = NULL;  
 	redir->next = NULL;
 	if (!cmd_node->redirections)
 		cmd_node->redirections = redir;
