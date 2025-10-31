@@ -34,26 +34,25 @@ static bool	is_number(char *str)
 
 int	builtin_exit(char **args)
 {
-	int exit_code;
-	long long num;
+	int			exit_code;
+	long long	num;
 
-	printf("exit\n");
+	write(STDOUT_FILENO, "exit\n", 5);
 	if (!args[1])
-		exit(0);
-	if (args[2])
-	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		return (FAILURE);
-	}
+		exit(g_signal_received);
 	if (!is_number(args[1]))
 	{
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(2);
+		exit(255);
+	}
+	if (args[2])
+	{
+		ft_putstr_fd("exit: too many arguments\n", 2);
+		return (FAILURE);
 	}
 	num = ft_atoi(args[1]);
 	exit_code = (unsigned char)num;
 	exit(exit_code);
-	return (SUCCESS);
 }

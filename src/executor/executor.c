@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 20:04:41 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:09:13 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **en
 			{
 				setup_child_signals();
 				setup_redirections(node->redirections, *env);
-				exit(0);
+				exit(g_signal_received);
 			}
 		}
 		return;
 	}
-	if (is_builtin(node->args[0]) && cmd_count == 1)
+	if (is_builtin(node->args[0]) && cmd_count == 1 && node->redirections == NULL)
 	{
 		execute_builtin(node->args[0], node->args, env, false);
 		return ;

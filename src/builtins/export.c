@@ -33,18 +33,24 @@ static void	print_env(t_env_lst *head)
 static int	handle_var(t_env_lst **env, char *var)
 {
 	char	*key_value[2];
+	char	*eq_pos;
 
 	if (ft_strcmp(var, "=") == 0)
 		return (print_error("="));
-	if (!convert_var_to_key_value_pair(key_value, var))
+	eq_pos = ft_strchr(var, '=');
+	if (!eq_pos)
 	{
 		if (!is_valid_var_name(var))
 			return (print_error(var));
 		return (SUCCESS);
 	}
-	if (!is_valid_var_name(key_value[0]))
+	if (!convert_var_to_key_value_pair(key_value, var))
+		return (print_error(var));
+	if (!is_valid_var_name(key_value[0]) || key_value[0][0] == '\0')
 	{
-		return (print_error(key_value[0]));
+		free(key_value[0]);
+		free(key_value[1]);
+		return (print_error(var));
 	}
 	add_or_update_env_var(env, key_value[0], key_value[1]);
 	return (SUCCESS);

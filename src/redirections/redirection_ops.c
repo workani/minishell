@@ -19,6 +19,7 @@ static void	print_redir_err_and_exit(char *filename)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
+	g_signal_received = 1;
 	exit(1);
 }
 
@@ -68,6 +69,7 @@ void	redir_heredoc(char *del, char *content)
 	if (!del)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		g_signal_received = 2;
 		return;
 	}
 	if (!content)
@@ -75,6 +77,7 @@ void	redir_heredoc(char *del, char *content)
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
+		g_signal_received = 1;
 		return ;
 	}
 	write(fd[1], content, ft_strlen(content));

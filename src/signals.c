@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals                                            :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:51:53 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/21 12:08:32 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/10/31 19:57:36 by mbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	handle_sigint_interactive(int sig)
 {
 	(void)sig;
-	g_signal_received = 130;
+	g_signal_received = 1;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
