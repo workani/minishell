@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/30 20:07:52 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 05:26:05 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,24 @@ static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_chi
 	g_signal_received = status;
 }
 
-static int handle_exec_errors(char *cmd, int exec_errno)
-{
-	int exit_code;
-
-	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
-	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
-		exit_code = 126;
-	}
-	else
-	{
-		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
-		exit_code = 127;
-	}
-	return (exit_code);
-}
+//static void handle_exec_errors(char *cmd, int exec_errno)
+//{
+//	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
+//	{
+//		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
+//		exit(126);
+//	}
+//	else
+//	{
+//		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
+//		exit(127);
+//	}
+//}
 
 static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 						  t_env_lst **env, int idx)
 {
 	int exec_errno;
-	int exit_code;
 	char *full_cmd;
 	char **envp;
 
@@ -71,10 +67,18 @@ static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	if (full_cmd)
 		execve(full_cmd, node->args, envp);
 	exec_errno = errno;
-	exit_code = handle_exec_errors(node->args[0], exec_errno);
-	free(full_cmd);
-	free_string_array(envp);
-	exit(exit_code);
+	
+	char *cmd = full_cmd;
+		if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
+		exit(126);
+	}
+	else
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
+		exit(127);
+	}
 }
 
 void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx)
@@ -102,8 +106,7 @@ void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **en
 		}
 		return;
 	}
-	if (is_builtin(node->args[0]) && cmd_count == 1
-		&& node->redirections == NULL)
+	if (is_builtin(node->args[0]) && cmd_count == 1)
 	{
 		execute_builtin(node->args[0], node->args, env, false);
 		return ;

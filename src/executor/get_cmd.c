@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:27:34 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/30 19:48:43 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 05:21:45 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ char	*get_cmd(char *cmd, char **envp)
 		i++;
 		free(full_cmd);
 	}
-	free(full_cmd);
 	free_string_array(paths);
 	return (NULL);
 }
