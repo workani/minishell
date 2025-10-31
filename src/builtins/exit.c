@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 13:50:28 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/31 20:04:27 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:53:35 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,20 @@ static bool	is_number(char *str)
 	return (true);
 }
 
-int	builtin_exit(char **args)
+int	builtin_exit(char **args, t_env_lst **env)
 {
 	int			exit_code;
 	long long	num;
 
 	write(STDOUT_FILENO, "exit\n", 5);
 	if (!args[1])
+	{
+		free_env_lst(env);
 		exit(g_signal_received);
+	}
 	if (!is_number(args[1]))
 	{
+		free_env_lst(env);
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
@@ -53,6 +57,7 @@ int	builtin_exit(char **args)
 		return (FAILURE);
 	}
 	num = ft_atoi(args[1]);
+	free_env_lst(env);
 	exit_code = (unsigned char)num;
 	exit(exit_code);
 }

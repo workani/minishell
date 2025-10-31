@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 20:00:01 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:56:46 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	shell_loop(t_env_lst **env)
 		if (!line)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
+			free_env_lst(env);
 			exit(g_signal_received);
 		}
 		if (*line)

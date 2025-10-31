@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:07:32 by workani           #+#    #+#             */
-/*   Updated: 2025/10/31 20:04:36 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:49:38 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		builtin_echo(char **args);
 int		builtin_env(t_env_lst *env);
 int		builtin_unset(char **args, t_env_lst **env);
 int		builtin_export(char **args, t_env_lst **env);
-int		builtin_exit(char **args);
+int		builtin_exit(char **args, t_env_lst **env);
 int		builtin_pwd(void);
 int		builtin_cd(char **args, t_env_lst **env);
 

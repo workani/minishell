@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 20:01:41 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:57:52 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	free_env_node(t_env_lst *node)
 {
+	static int count;
+	printf("freeing node #%d...\n", count++);
 	free(node->key);
 	free(node->value);
 	free(node);

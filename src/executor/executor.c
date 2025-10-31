@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 20:09:13 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:48:59 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_chi
 	else if (ft_strcmp("env", cmd) == 0)
 		status = builtin_env(*env);
 	else if (ft_strcmp("exit", cmd) == 0)
-		status = builtin_exit(args);
+		status = builtin_exit(args, env);
 	else if (ft_strcmp("pwd", cmd) == 0)
 		status = builtin_pwd();
 	else if (ft_strcmp("cd", cmd) == 0)
