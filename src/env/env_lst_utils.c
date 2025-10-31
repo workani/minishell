@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/30 19:44:54 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:01:41 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,22 @@ static void	free_env_node(t_env_lst *node)
 	free(node);
 }
 
+void  free_env_lst(t_env_lst **head)
+{
+  t_env_lst *tmp;
+  t_env_lst *cur;
+  
+  cur = *head;
+  while (cur != NULL)
+  {
+    tmp = cur;
+    cur = cur->next;
+    free_env_node(tmp);
+  }
+  *head = NULL;
+}
+
+
 void	add_env_node(t_env_lst **head, char *key, char *value)
 {
 	t_env_lst	*cur;
@@ -27,8 +43,10 @@ void	add_env_node(t_env_lst **head, char *key, char *value)
 	node = malloc(sizeof(t_env_lst));
 	if (!node)
 		return ;
-	node->key = key;
-	node->value = value;
+	if (key)
+		node->key = ft_strdup(key);
+	if (value)
+		node->value = ft_strdup(value);
 	node->next = NULL;
 	if (!(*head))
 	{
@@ -82,21 +100,6 @@ int	get_env_lst_size(t_env_lst *head)
 		head = head->next;
 	}
 	return (size);
-}
-
-void  free_env_lst(t_env_lst **head)
-{
-  t_env_lst *tmp;
-  t_env_lst *cur;
-  
-  cur = *head;
-  while (cur != NULL)
-  {
-    tmp = cur;
-    cur = cur->next;
-    free_env_node(tmp);
-  }
-  *head = NULL;
 }
 
 void	add_or_update_env_var(t_env_lst **head, char *key, char *value)
