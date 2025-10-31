@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:21:43 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 17:51:09 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 21:23:42 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static int	handle_var(t_env_lst **env, char *var)
 		return (print_error(var));
 	}
 	add_or_update_env_var(env, key_value[0], key_value[1]);
+	free(key_value[0]);
+	free(key_value[1]);
 	return (SUCCESS);
 }
 
