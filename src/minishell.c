@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 16:39:12 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:00:01 by mbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ static void	shell_loop(t_env_lst **env)
 	while (1)
 	{
 		setup_interactive_signals();
+		if (g_signal_received == 130)
+			g_signal_received = 1;      
+
 		line = readline(PROMPT);
 		if (!line)
 		{
@@ -85,6 +88,8 @@ static void	shell_loop(t_env_lst **env)
 		{
 			add_history(line);
 			process_line(line, env);
+			if (g_signal_received == 130)
+				g_signal_received = 1;
 		}
 		free(line);
 	}
