@@ -6,7 +6,7 @@
 /*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 05:26:05 by workani          ###   ########.fr       */
+/*   Updated: 2025/10/31 19:22:19 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_chi
 	g_signal_received = status;
 }
 
-//static void handle_exec_errors(char *cmd, int exec_errno)
-//{
-//	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
-//	{
-//		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
-//		exit(126);
-//	}
-//	else
-//	{
-//		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
-//		exit(127);
-//	}
-//}
+static void handle_exec_errors(char *cmd, int exec_errno)
+{
+	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
+		exit(126);
+	}
+	else
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
+		exit(127);
+	}
+}
 
 static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 						  t_env_lst **env, int idx)
@@ -67,18 +67,7 @@ static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	if (full_cmd)
 		execve(full_cmd, node->args, envp);
 	exec_errno = errno;
-	
-	char *cmd = full_cmd;
-		if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
-	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd, strerror(exec_errno));
-		exit(126);
-	}
-	else
-	{
-		ft_printf_fd(STDERR_FILENO, "minishell: command not found: %s\n", cmd);
-		exit(127);
-	}
+	handle_exec_errors(node->args[0], exec_errno);
 }
 
 void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx)

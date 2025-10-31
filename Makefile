@@ -67,7 +67,7 @@ SRCS := \
   $(addprefix $(REDIRECTIONS_DIR)/,$(REDIRECTIONS_SRCS))
 
 OBJS    := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-HEADERS := $(INC_DIR)/minishell.h $(INC_DIR)/types.h $(INC_DIR)/defines.h
+HEADERS := $(INC_DIR)/minishell.h
 
 # ────────────────────────────
 #  Primary targets
