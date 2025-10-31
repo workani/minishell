@@ -34,10 +34,10 @@ static bool	is_number(char *str)
 
 int	builtin_exit(char **args)
 {
-	int			exit_code;
-	long long	num;
+	int exit_code;
+	long long num;
 
-	write(STDOUT_FILENO, "exit\n", 5);
+	printf("exit\n");
 	if (!args[1])
 		exit(g_signal_received);
 	if (!is_number(args[1]))
@@ -55,4 +55,5 @@ int	builtin_exit(char **args)
 	num = ft_atoi(args[1]);
 	exit_code = (unsigned char)num;
 	exit(exit_code);
+	return (SUCCESS);
 }

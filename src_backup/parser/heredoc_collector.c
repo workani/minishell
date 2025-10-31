@@ -1,5 +1,28 @@
 #include "minishell.h"
 
+static char	*read_line_raw(void)
+{
+	char	buffer[4096];
+	char	c;
+	int		i;
+	int		ret;
+
+	i = 0;
+	write(STDOUT_FILENO, "> ", 2);
+	while (1)
+	{
+		ret = read(STDIN_FILENO, &c, 1);
+		if (ret <= 0 || g_signal_received == 130)
+			return (NULL);
+		if (c == '\n')
+			break ;
+		if (i < 4095)
+			buffer[i++] = c;
+	}
+	buffer[i] = '\0';
+	return (ft_strdup(buffer));
+}
+
 static char	*read_heredoc_input(char *delimiter, t_env_lst *env)
 {
 	char	*line;
@@ -10,7 +33,7 @@ static char	*read_heredoc_input(char *delimiter, t_env_lst *env)
 	content = ft_strdup("");
 	while (1)
 	{
-		line = readline("> ");
+		line = read_line_raw();
 		if (g_signal_received == 130 || !line)
 		{
 			free(content);
@@ -70,6 +93,7 @@ static void	collect_heredocs_recursive(t_node *node, t_env_lst *env)
 
 void	collect_all_heredocs(t_node *ast, t_env_lst *env)
 {
+	g_signal_received = 0;
 	setup_heredoc_signals();
 	collect_heredocs_recursive(ast, env);
 	setup_interactive_signals();
