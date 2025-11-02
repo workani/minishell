@@ -6,7 +6,7 @@
 /*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:06:44 by workani           #+#    #+#             */
-/*   Updated: 2025/10/31 19:10:49 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/03 14:58:18 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,15 @@ void	setup_interactive_signals(void);
 void	setup_child_signals(void);
 void	setup_parent_exec_signals(void);
 void	setup_heredoc_signals(void);
+
+// Handlers
+void	handle_child_status(int status);
+void	handle_exec_errors(char *cmd, int exec_errno);
+void	handle_redirs_with_no_cmd(t_cmd_node *node, t_env_lst *env);
+
+// Fd helpers
+void	backup_fds(int dest[3]);
+void	restore_fds(int src[3]);
+
 
 #endif

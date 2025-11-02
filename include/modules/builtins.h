@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:07:32 by workani           #+#    #+#             */
-/*   Updated: 2025/10/31 20:49:38 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:04:24 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 #include "types.h"
 #include <stdbool.h>
-
-// Variable expansion
-char	*expand_line(char *line, t_env_lst *env);
-void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env);
 
 // Builtin utilities
 bool	is_builtin(char *cmd);

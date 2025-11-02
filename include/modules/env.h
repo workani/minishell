@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:10:10 by workani           #+#    #+#             */
-/*   Updated: 2025/10/31 20:00:21 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:04:46 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,5 @@ char	*expand_line(char *line, t_env_lst *env);
 void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env);
 
 void  free_env_lst(t_env_lst **head);
-
 
 #endif

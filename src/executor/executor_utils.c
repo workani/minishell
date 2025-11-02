@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:33:40 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/30 17:50:07 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 14:56:47 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void backup_fds(int dest[3])
+{
+	dest[0] = dup(STDIN_FILENO);
+	dest[1] = dup(STDOUT_FILENO);
+	dest[2] = dup(STDERR_FILENO);
+}
+
+void restore_fds(int src[3])
+{
+	dup2(src[0], STDIN_FILENO);
+	dup2(src[1], STDOUT_FILENO);
+	dup2(src[2], STDERR_FILENO);
+	close(src[0]);
+	close(src[1]);
+	close(src[2]);
+}
 
 void	close_unused_pipes(int pipes[][2], int len, int exception_one,
 		int exception_two)
@@ -25,20 +42,6 @@ void	close_unused_pipes(int pipes[][2], int len, int exception_one,
 		if (pipes[i][1] != exception_one && pipes[i][1] != exception_two)
 			close(pipes[i][1]);
 		i++;
-	}
-}
-
-static void	handle_child_status(int status)
-{
-	if (WIFEXITED(status))
-		g_signal_received = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
-		else if (WTERMSIG(status) == SIGQUIT)
-			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
-		g_signal_received = 128 + WTERMSIG(status);
 	}
 }
 
