@@ -18,24 +18,11 @@ static int	count_non_empty(char **args)
 	return (count);
 }
 
-static char	**filter_empty_args(char **args)
+static void	copy_non_empty(char **args, char **new_args)
 {
-	char	**new_args;
-	int		i;
-	int		j;
-	int		count;
+	int	i;
+	int	j;
 
-	if (!args)
-		return (NULL);
-	count = count_non_empty(args);
-	if (count == 0)
-	{
-		free(args);
-		return (NULL);
-	}
-	new_args = malloc(sizeof(char *) * (count + 1));
-	if (!new_args)
-		return (NULL);
 	i = 0;
 	j = 0;
 	while (args[i])
@@ -47,34 +34,49 @@ static char	**filter_empty_args(char **args)
 		i++;
 	}
 	new_args[j] = NULL;
+}
+
+char	**filter_empty_args(char **args)
+{
+	char	**new_args;
+	int		count;
+
+	if (!args)
+		return (NULL);
+	count = count_non_empty(args);
+	if (count == 0)
+		return (free(args), NULL);
+	new_args = malloc(sizeof(char *) * (count + 1));
+	if (!new_args)
+		return (NULL);
+	copy_non_empty(args, new_args);
 	free(args);
 	return (new_args);
 }
 
-void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env)
+void	process_double_quote(char **line, t_buffer *buf, t_env_lst *env)
 {
-	int		i;
-	char	*expanded;
-	t_redir	*redir;
-
-	if (cmd_node->args)
+	(*line)++;
+	while (**line && **line != '"')
 	{
-		i = 0;
-		while (cmd_node->args[i])
+		if (**line == '$')
+			expand_variable(line, buf, env);
+		else
 		{
-			expanded = expand_line(cmd_node->args[i], env);
-			free(cmd_node->args[i]);
-			cmd_node->args[i] = expanded;
-			i++;
+			append_char(buf, **line);
+			(*line)++;
 		}
-		cmd_node->args = filter_empty_args(cmd_node->args);
 	}
-	redir = cmd_node->redirections;
-	while (redir)
-	{
-		expanded = expand_line(redir->filename, env);
-		free(redir->filename);
-		redir->filename = expanded;
-		redir = redir->next;
-	}
+	if (**line == '"')
+		(*line)++;
+}
+
+void	init_buffer(t_buffer *buf, size_t initial_capacity)
+{
+	buf->data = malloc(initial_capacity);
+	if (!buf->data)
+		exit(EXIT_FAILURE);
+	buf->data[0] = '\0';
+	buf->len = 0;
+	buf->capacity = initial_capacity;
 }

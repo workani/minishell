@@ -1,39 +1,37 @@
 #include "minishell.h"
 
+static int	append_line(char **content, char *line, t_env_lst *env)
+{
+	char	*expanded;
+	char	*temp;
+
+	expanded = expand_line(line, env);
+	temp = *content;
+	*content = ft_strjoin(*content, expanded);
+	free(temp);
+	temp = *content;
+	*content = ft_strjoin(*content, "\n");
+	free(temp);
+	free(expanded);
+	return (0);
+}
+
 static char	*read_heredoc_input(char *delimiter, t_env_lst *env)
 {
 	char	*line;
 	char	*content;
-	char	*temp;
-	char	*expanded;
 
 	content = ft_strdup("");
 	while (1)
 	{
 		line = readline("> ");
 		if (g_signal_received == 130 || !line)
-		{
-			free(content);
-			if (line)
-				free(line);
-			return (NULL);
-		}
+			return (free(content), line ? free(line), NULL : NULL);
 		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		expanded = expand_line(line, env);
-		temp = content;
-		content = ft_strjoin(content, expanded);
-		free(temp);
-		temp = content;
-		content = ft_strjoin(content, "\n");
-		free(temp);
+			return (free(line), content);
+		append_line(&content, line, env);
 		free(line);
-		free(expanded);
 	}
-	return (content);
 }
 
 static void	collect_cmd_heredocs(t_cmd_node *cmd, t_env_lst *env)

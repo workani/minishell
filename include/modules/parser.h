@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:06:17 by workani           #+#    #+#             */
-/*   Updated: 2025/10/31 19:21:25 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/03 17:07:41 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,14 @@ t_node	*parse(t_token *tokens);
 void	free_ast(t_node *node);
 int		get_cmd_count(t_node *node);
 void	print_ast(t_node *node, int level);
+
+// Expander str utils
+void	append_char(t_buffer *buf, char c);
+void	append_str(t_buffer *buf, const char *str);
+int		get_var_len(char *str);
+
+void	process_double_quote(char **line, t_buffer *buf, t_env_lst *env);
+char	**filter_empty_args(char **args);
+void	init_buffer(t_buffer *buf, size_t initial_capacity);
 
 #endif

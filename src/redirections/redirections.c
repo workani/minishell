@@ -1,9 +1,9 @@
 #include "minishell.h"
 
 static void	run_redirection(t_token_type redir_type, char *filename,
-	t_env_lst *env, char *heredoc_content)
+		t_env_lst *env, char *heredoc_content)
 {
-	(void)env;  
+	(void)env;
 	if (redir_type == TOKEN_REDIR_IN)
 		redir_in(filename);
 	if (redir_type == TOKEN_REDIR_OUT)

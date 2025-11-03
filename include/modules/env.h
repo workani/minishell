@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:10:10 by workani           #+#    #+#             */
-/*   Updated: 2025/11/03 15:04:46 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/03 17:09:21 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ void	delete_env_node(t_env_lst **head, char *key);
 
 // Variable expansion
 char	*expand_line(char *line, t_env_lst *env);
+void	expand_variable(char **line, t_buffer *buf, t_env_lst *env);
 void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env);
 
-void  free_env_lst(t_env_lst **head);
+void	free_env_lst(t_env_lst **head);
 
 #endif

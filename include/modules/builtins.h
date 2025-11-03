@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
-#define BUILTINS_H
+# define BUILTINS_H
 
-#include "types.h"
-#include <stdbool.h>
+# include "types.h"
+# include <stdbool.h>
+
+/* Alias to keep legacy name while using g_ naming */
+# define builtins g_builtins
 
 // Builtin utilities
 bool	is_builtin(char *cmd);

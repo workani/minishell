@@ -27,7 +27,8 @@ int	builtin_unset(char **args, t_env_lst **env)
 	{
 		if (!is_valid_var_name(args[i]))
 		{
-			ft_printf_fd(2, "minishell: unset: `%s': not a valid identifier\n", args[i]);
+			ft_printf_fd(2, "minishell: unset: `%s': not a valid identifier\n",
+				args[i]);
 			exit_status = FAILURE;
 			i++;
 			continue ;

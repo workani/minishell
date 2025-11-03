@@ -86,7 +86,6 @@ char	*get_env_value(const char *key, t_env_lst *head)
 	return (NULL);
 }
 
-
 void	init_env_lst(t_env_lst **head, char **envp)
 {
 	int		i;

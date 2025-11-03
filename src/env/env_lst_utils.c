@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_lst_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 21:20:16 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/03 17:23:22 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,20 @@ static void	free_env_node(t_env_lst *node)
 	free(node);
 }
 
-void  free_env_lst(t_env_lst **head)
+void	free_env_lst(t_env_lst **head)
 {
-  t_env_lst *tmp;
-  t_env_lst *cur;
-  
-  cur = *head;
-  while (cur != NULL)
-  {
-    tmp = cur;
-    cur = cur->next;
-    free_env_node(tmp);
-  }
-  *head = NULL;
-}
+	t_env_lst	*tmp;
+	t_env_lst	*cur;
 
+	cur = *head;
+	while (cur != NULL)
+	{
+		tmp = cur;
+		cur = cur->next;
+		free_env_node(tmp);
+	}
+	*head = NULL;
+}
 
 void	add_env_node(t_env_lst **head, char *key, char *value)
 {
@@ -86,20 +85,6 @@ void	delete_env_node(t_env_lst **head, char *key)
 		}
 		current = current->next;
 	}
-}
-
-int	get_env_lst_size(t_env_lst *head)
-{
-	int	size;
-
-	size = 0;
-	while (head)
-	{
-		if (head->value)
-			size++;
-		head = head->next;
-	}
-	return (size);
 }
 
 void	add_or_update_env_var(t_env_lst **head, char *key, char *value)

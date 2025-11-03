@@ -34,8 +34,8 @@ static bool	is_number(char *str)
 
 int	builtin_exit(char **args, t_env_lst **env)
 {
-	int			exit_code;
-	long long	num;
+	int exit_code;
+	long long num;
 
 	write(STDOUT_FILENO, "exit\n", 5);
 	if (!args[1])

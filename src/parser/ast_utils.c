@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:36:24 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/21 19:25:44 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:59:34 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,13 @@ static void	free_redirections(t_redir *redir)
 	{
 		tmp = redir->next;
 		free(redir->filename);
-		if (redir->heredoc_content)  
+		if (redir->heredoc_content)
 			free(redir->heredoc_content);
 		free(redir);
 		redir = tmp;
 	}
 }
 
-// free all ast
 void	free_ast(t_node *node)
 {
 	if (!node)

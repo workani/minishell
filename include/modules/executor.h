@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:06:44 by workani           #+#    #+#             */
-/*   Updated: 2025/11/03 14:58:18 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/03 18:38:17 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, \
 				t_env_lst **env, int idx);
 
 // Pipe management
-void	close_unused_pipes(int pipes[][2], int len, int exception_one, \
-				int exception_two);
+void	close_unused_pipes(int pipes[][2], int len, int exception_one,\
+	int exception_two);
 void	close_pipes_and_wait(int pipes[][2], int cmd_count);
 void	setup_pipes(int pipes[][2], int pipe_count, int idx);
 
@@ -49,6 +49,5 @@ void	handle_redirs_with_no_cmd(t_cmd_node *node, t_env_lst *env);
 // Fd helpers
 void	backup_fds(int dest[3]);
 void	restore_fds(int src[3]);
-
 
 #endif

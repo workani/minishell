@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:20:45 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/21 16:43:58 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:40:37 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	print_ast(t_node *node, int count)
 {
 	if (!node)
 		return ;
-
 	if (node->type == NODE_PIPE)
 	{
 		printf("pipe\n");

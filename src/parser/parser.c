@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:36:50 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/28 16:43:55 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:42:38 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,40 @@ static t_node	*parse_command(t_token **tokens);
 static bool		parse_redirection(t_token **tokens, t_cmd_node *cmd_node);
 static char		**add_arg_to_array(char **args, char *new_arg);
 
+static t_node	*handle_pipe(t_token **current, t_node *left)
+{
+	t_node	*right;
+
+	*current = (*current)->next;
+	if (!*current)
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		free_ast(left);
+		return (NULL);
+	}
+	right = parse(*current);
+	if (!right)
+	{
+		free_ast(left);
+		return (NULL);
+	}
+	return (new_pipe_node(left, right));
+}
+
 t_node	*parse(t_token *tokens)
 {
 	t_node	*left;
-	t_node	*right;
-	t_token	*current_token;
+	t_token	*current;
 
 	if (!tokens)
 		return (NULL);
-	current_token = tokens;
-	left = parse_command(&current_token);
+	current = tokens;
+	left = parse_command(&current);
 	if (!left)
 		return (NULL);
-	while (current_token && current_token->type == TOKEN_PIPE)
+	while (current && current->type == TOKEN_PIPE)
 	{
-		current_token = current_token->next;
-		if (!current_token)
-		{
-			printf("minishell: syntax error near unexpected token `|'\n");
-			free_ast(left);
-			return (NULL);
-		}
-		right = parse(current_token);
-		if (!right)
-		{
-			free_ast(left);
-			return (NULL);
-		}
-		left = new_pipe_node(left, right);
+		left = handle_pipe(&current, left);
 		break ;
 	}
 	return (left);
@@ -90,7 +96,7 @@ static bool	parse_redirection(t_token **tokens, t_cmd_node *cmd_node)
 	redir = malloc(sizeof(t_redir));
 	redir->type = (*tokens)->type;
 	redir->filename = ft_strdup((*tokens)->next->value);
-	redir->heredoc_content = NULL;  
+	redir->heredoc_content = NULL;
 	redir->next = NULL;
 	if (!cmd_node->redirections)
 		cmd_node->redirections = redir;
@@ -107,8 +113,8 @@ static bool	parse_redirection(t_token **tokens, t_cmd_node *cmd_node)
 
 static char	**add_arg_to_array(char **args, char *new_arg)
 {
-	int size;
-	char **new_args;
+	int		size;
+	char	**new_args;
 
 	size = 0;
 	if (args)

@@ -28,7 +28,7 @@ void	redir_in(char *filename)
 	int	fd;
 
 	if (!filename)
-		return;
+		return ;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		print_redir_err_and_exit(filename);
@@ -41,7 +41,7 @@ void	redir_out(char *filename)
 	int	fd;
 
 	if (!filename)
-		return;
+		return ;
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		print_redir_err_and_exit(filename);
@@ -54,7 +54,7 @@ void	redir_append(char *filename)
 	int	fd;
 
 	if (!filename)
-		return;
+		return ;
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		print_redir_err_and_exit(filename);
@@ -68,12 +68,13 @@ void	redir_heredoc(char *del, char *content)
 
 	if (!del)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+			2);
 		g_signal_received = 2;
-		return;
+		return ;
 	}
 	if (!content)
-		return;
+		return ;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");

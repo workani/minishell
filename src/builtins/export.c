@@ -14,7 +14,8 @@
 
 static int	print_error(char *var)
 {
-	ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", var);
+	ft_printf_fd(STDERR_FILENO,
+		"minishell: export: `%s': not a valid identifier\n", var);
 	return (FAILURE);
 }
 

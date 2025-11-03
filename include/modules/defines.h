@@ -19,9 +19,10 @@
 
 # define DISCARD -1
 
-#define PROMPT "\001\033[48;5;23;38;5;252m\002 >>> \001\033[0m\033[38;5;201m\002 minishell$ \001\033[0m\002"
-#define SUCCESS 0
-#define FAILURE 1
-
+# define PROMPT_P1 "\001\033[48;5;23;38;5;252m\002 >>> "
+# define PROMPT_P2 "\001\033[0m\033[38;5;201m\002 minishell$ \001\033[0m\002"
+# define PROMPT PROMPT_P1 PROMPT_P2
+# define SUCCESS 0
+# define FAILURE 1
 
 #endif

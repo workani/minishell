@@ -12,7 +12,7 @@ static char	*get_home_dir(t_env_lst *env)
 	return (NULL);
 }
 
-static int set_path_and_check_errors(char **args, t_env_lst *env, char **path)
+static int	set_path_and_check_errors(char **args, t_env_lst *env, char **path)
 {
 	if (!args[1])
 	{
