@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 17:46:07 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:44:19 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_env_lst
 {
 	char			*key;
 	char			*value;
+	bool			has_no_eq;
 	struct s_env_lst	*next;
 }	t_env_lst;
 

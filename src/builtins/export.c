@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:21:43 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 21:23:42 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/03 19:01:51 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ static int	print_error(char *var)
 
 static void	print_env(t_env_lst *head)
 {
+	sort_env_list(head);
 	while (head != NULL)
 	{
 		if (head->value)
 			printf("declare -x %s=\"%s\"\n", head->key, head->value);
+		else if (head->has_no_eq)
+			printf("declare -x %s\n", head->key);
 		else
 			printf("declare -x %s=\"\"\n", head->key);
 		head = head->next;
@@ -43,6 +46,7 @@ static int	handle_var(t_env_lst **env, char *var)
 	{
 		if (!is_valid_var_name(var))
 			return (print_error(var));
+		add_or_update_env_var(env, var, NULL, true);
 		return (SUCCESS);
 	}
 	if (!convert_var_to_key_value_pair(key_value, var))
@@ -53,7 +57,7 @@ static int	handle_var(t_env_lst **env, char *var)
 		free(key_value[1]);
 		return (print_error(var));
 	}
-	add_or_update_env_var(env, key_value[0], key_value[1]);
+	add_or_update_env_var(env, key_value[0], key_value[1], false);
 	free(key_value[0]);
 	free(key_value[1]);
 	return (SUCCESS);

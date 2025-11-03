@@ -97,7 +97,7 @@ void	init_env_lst(t_env_lst **head, char **envp)
 	while (envp[i])
 	{
 		convert_var_to_key_value_pair(key_value, envp[i]);
-		add_env_node(head, key_value[0], key_value[1]);
+		add_env_node(head, key_value[0], key_value[1], false);
 		free(key_value[0]);
 		free(key_value[1]);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 17:23:22 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:46:23 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	free_env_lst(t_env_lst **head)
 	*head = NULL;
 }
 
-void	add_env_node(t_env_lst **head, char *key, char *value)
+void	add_env_node(t_env_lst **head, char *key, char *value, bool has_no_eq)
 {
 	t_env_lst	*cur;
 	t_env_lst	*node;
@@ -46,6 +46,7 @@ void	add_env_node(t_env_lst **head, char *key, char *value)
 		node->key = ft_strdup(key);
 	if (value)
 		node->value = ft_strdup(value);
+	node->has_no_eq = has_no_eq;
 	node->next = NULL;
 	if (!(*head))
 	{
@@ -87,7 +88,7 @@ void	delete_env_node(t_env_lst **head, char *key)
 	}
 }
 
-void	add_or_update_env_var(t_env_lst **head, char *key, char *value)
+void	add_or_update_env_var(t_env_lst **head, char *key, char *value, bool has_no_eq)
 {
 	t_env_lst *cur;
 
@@ -103,5 +104,5 @@ void	add_or_update_env_var(t_env_lst **head, char *key, char *value)
 		}
 		cur = cur->next;
 	}
-	add_env_node(head, key, value);
+	add_env_node(head, key, value, has_no_eq);
 }
