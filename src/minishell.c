@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/31 20:56:46 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:29:18 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ static void	shell_loop(t_env_lst **env)
 			process_line(line, env);
 			if (g_signal_received == 130)
 				g_signal_received = 1;
+		printf("exit status = %d\n", g_signal_received);
 		}
 		free(line);
 	}
+	
 }
 
 int	main(int argc, char **argv, char **envp)

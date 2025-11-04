@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbondare <mbondare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:51:53 by mbondare          #+#    #+#             */
-/*   Updated: 2025/10/31 19:57:36 by mbondare         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:33:24 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	setup_child_signals(void)
 	sa_default.sa_handler = SIG_DFL;
 	sa_default.sa_flags = 0;
 	sigaction(SIGINT, &sa_default, NULL);
+	sigaction(SIGPIPE, &sa_default, NULL);
 	sigaction(SIGQUIT, &sa_default, NULL);
 }
 
@@ -74,6 +75,7 @@ void	setup_parent_exec_signals(void)
 	sa_ignore.sa_handler = SIG_IGN;
 	sa_ignore.sa_flags = 0;
 	sigaction(SIGINT, &sa_ignore, NULL);
+	sigaction(SIGPIPE, &sa_ignore, NULL);
 	sigaction(SIGQUIT, &sa_ignore, NULL);
 }
 

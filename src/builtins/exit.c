@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 13:50:28 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/03 00:37:57 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/04 18:22:55 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ int	builtin_exit(char **args, t_env_lst **env)
 	}
 	num = ft_atoi(args[1]);
 	free_env_lst(env);
-	exit_code = (unsigned char)num;
+	exit_code = num;
 	exit(exit_code);
 }
