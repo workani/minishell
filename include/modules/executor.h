@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:06:44 by workani           #+#    #+#             */
-/*   Updated: 2025/11/04 19:08:38 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:09:54 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_cmd(t_cmd_node *node, t_executor_ctx *ctx);
 // Pipe management
 void	close_unused_pipes(int pipes[][2], int len, int exception_one,\
 	int exception_two);
-void	close_pipes_and_wait(int pipes[][2], int cmd_count);
+void	close_pipes_and_wait(t_executor_ctx *ctx);
 void	setup_pipes(int pipes[][2], int pipe_count, int idx);
 
 // Redirection functions

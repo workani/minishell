@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:21:43 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 19:01:51 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:57:05 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	print_env(t_env_lst *head)
 	sort_env_list(head);
 	while (head != NULL)
 	{
-		if (head->value)
-			printf("declare -x %s=\"%s\"\n", head->key, head->value);
-		else if (head->has_no_eq)
+		if (head->has_no_eq)
 			printf("declare -x %s\n", head->key);
+		else if (head->value)
+			printf("declare -x %s=\"%s\"\n", head->key, head->value);
 		else
 			printf("declare -x %s=\"\"\n", head->key);
 		head = head->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/04 19:17:16 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:21:45 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	execute_cmd(t_cmd_node *node, t_executor_ctx *ctx)
 	}
 	if (pid == 0)
 		child_process(node, ctx);
+	ctx->last_pid = pid;
 }
 
 void	execute(t_node *node, t_executor_ctx *ctx)

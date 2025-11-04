@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_lst_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 18:46:23 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:53:06 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,12 @@ void	add_or_update_env_var(t_env_lst **head, char *key, char *value, bool has_no
 	{
 		if (ft_strcmp(key, cur->key) == 0)
 		{
-			if (cur->value)
-				free(cur->value);
-			cur->value = ft_strdup(value);
+			if (!has_no_eq)
+			{
+				if (cur->value)
+					free(cur->value);
+				cur->value = ft_strdup(value);
+			}
 			return ;
 		}
 		cur = cur->next;

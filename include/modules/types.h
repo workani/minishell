@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/04 19:11:19 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:21:22 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_env_lst
 typedef struct s_executor_ctx
 {
 	int			(*pipes)[2];
+	pid_t		last_pid;
 	int			cmd_count;
 	t_env_lst	**env;
 	int			idx;
