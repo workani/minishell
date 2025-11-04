@@ -6,16 +6,18 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/04 17:56:32 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:17:16 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_child)
+static void execute_builtin(char **args, t_env_lst **env, bool is_child)
 {
+	char *cmd;
 	int status;
 
+	cmd = args[0];
 	if (ft_strcmp("echo", cmd) == 0)
 		status = builtin_echo(args);
 	else if (ft_strcmp("env", cmd) == 0)
@@ -35,20 +37,19 @@ static void execute_builtin(char *cmd, char **args, t_env_lst **env, bool is_chi
 	g_signal_received = status;
 }
 
-static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
-						  t_env_lst **env, int idx)
+static void	child_process(t_cmd_node *node, t_executor_ctx *ctx)
 {
-	int exec_errno;
-	char *full_cmd;
-	char **envp;
+	int		exec_errno;
+	char	*full_cmd;
+	char	**envp;
 
 	setup_child_signals();
-	if (cmd_count > 1)
-		setup_pipes(pipes, cmd_count - 1, idx);
-	setup_redirections(node->redirections, *env);
+	if (ctx->cmd_count > 1)
+		setup_pipes(ctx->pipes, ctx->cmd_count - 1, ctx->idx);
+	setup_redirections(node->redirections, *ctx->env);
 	if (is_builtin(node->args[0]))
-		return (execute_builtin(node->args[0], node->args, env, true));
-	envp = env_lst_to_arr(*env);
+		return (execute_builtin(node->args, ctx->env, true));
+	envp = env_lst_to_arr(*ctx->env);
 	full_cmd = set_cmd(node->args[0], envp);
 	if (full_cmd)
 		execve(full_cmd, node->args, envp);
@@ -56,45 +57,45 @@ static void child_process(t_cmd_node *node, int pipes[][2], int cmd_count,
 	handle_exec_errors(node->args[0], exec_errno);
 }
 
-void execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int idx)
+void	execute_cmd(t_cmd_node *node, t_executor_ctx *ctx)
 {
-	pid_t pid;
-	int original_fds[3];
+	pid_t	pid;
+	int		original_fds[3];
 
-	expand_variables(node, *env);
+	expand_variables(node, *ctx->env);
 	if (!node->args || !node->args[0])
-		return (handle_redirs_with_no_cmd(node, *env));
-	if (is_builtin(node->args[0]) && cmd_count == 1)
+		return (handle_redirs_with_no_cmd(node, *ctx->env));
+	if (is_builtin(node->args[0]) && ctx->cmd_count == 1)
 	{
 		backup_fds(original_fds);
-		setup_redirections(node->redirections, *env);
-		execute_builtin(node->args[0], node->args, env, false);
+		setup_redirections(node->redirections, *ctx->env);
+		execute_builtin(node->args, ctx->env, false);
 		restore_fds(original_fds);
-		return; 
+		return ;
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		g_signal_received = 1;
-		return;
+		return ;
 	}
 	if (pid == 0)
-		child_process(node, pipes, cmd_count, env, idx);
+		child_process(node, ctx);
 }
 
-void execute(t_node *node, int pipes[][2], int cmd_count, t_env_lst **env, int *idx)
+void	execute(t_node *node, t_executor_ctx *ctx)
 {
 	if (!node)
-		return;
+		return ;
 	if (node->type == NODE_PIPE)
 	{
-		execute(node->as.pipe.left, pipes, cmd_count, env, idx);
-		execute(node->as.pipe.right, pipes, cmd_count, env, idx);
+		execute(node->as.pipe.left, ctx);
+		execute(node->as.pipe.right, ctx);
 	}
-	if (node->type == NODE_CMD)
+	else if (node->type == NODE_CMD)
 	{
-		execute_cmd(&node->as.cmd, pipes, cmd_count, env, *idx);
-		(*idx)++;
+		execute_cmd(&node->as.cmd, ctx);
+		ctx->idx++;
 	}
 }

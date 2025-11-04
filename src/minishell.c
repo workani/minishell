@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/04 18:29:18 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:11:40 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,18 @@ static void	create_pipes(int pipes[][2], int cmd_count)
 
 static void	execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
 {
-	int	idx;
-	int	pipes[cmd_count - 1][2];
-
+	int				pipes[cmd_count - 1][2];
+	t_executor_ctx ctx;
+	
 	if (cmd_count <= 0)
 		return ;
-	idx = 0;
+	ctx.idx = 0;
+	ctx.env = env;
+	ctx.pipes = pipes;
+	ctx.cmd_count = cmd_count;
 	if (cmd_count > 1)
 		create_pipes(pipes, cmd_count);
-	execute(ast, pipes, cmd_count, env, &idx);
+	execute(ast, &ctx);
 	close_pipes_and_wait(pipes, cmd_count);
 }
 
@@ -91,7 +94,6 @@ static void	shell_loop(t_env_lst **env)
 			process_line(line, env);
 			if (g_signal_received == 130)
 				g_signal_received = 1;
-		printf("exit status = %d\n", g_signal_received);
 		}
 		free(line);
 	}

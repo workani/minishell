@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:06:44 by workani           #+#    #+#             */
-/*   Updated: 2025/11/03 18:38:17 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:08:38 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@
 # include "types.h"
 
 // Main execution
-void	execute(t_node *node, int (*pipes)[2], int cmd_count, \
-				t_env_lst **env, int *idx);
-void	execute_cmd(t_cmd_node *node, int pipes[][2], int cmd_count, \
-				t_env_lst **env, int idx);
-
+void	execute(t_node *node, t_executor_ctx *ctx);
+void	execute_cmd(t_cmd_node *node, t_executor_ctx *ctx);
 // Pipe management
 void	close_unused_pipes(int pipes[][2], int len, int exception_one,\
 	int exception_two);

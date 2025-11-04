@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 18:44:19 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:11:19 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 extern const char	*g_builtins[];
 
+
+
 typedef struct s_env_lst
 {
 	char			*key;
@@ -22,6 +24,16 @@ typedef struct s_env_lst
 	bool			has_no_eq;
 	struct s_env_lst	*next;
 }	t_env_lst;
+
+
+typedef struct s_executor_ctx
+{
+	int			(*pipes)[2];
+	int			cmd_count;
+	t_env_lst	**env;
+	int			idx;
+}	t_executor_ctx;
+
 
 typedef enum e_token_type
 {
@@ -92,15 +104,6 @@ typedef struct s_buffer
 	size_t	len;
 	size_t	capacity;
 }	t_buffer;
-
-typedef struct s_executor_ctx
-{
-	t_node	*node;
-	int			(*pipes)[2];
-	int			cmd_count;
-	t_env_lst	**env;
-	int			*idx;
-}	t_executor_ctx;
 
 
 #endif

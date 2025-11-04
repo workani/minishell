@@ -22,3 +22,5 @@ minishell_tester
 
 # Ignore MacOS-specific files
 .DS_STORE
+
+.venv
