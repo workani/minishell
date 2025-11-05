@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void backup_fds(int dest[3])
+void	backup_fds(int dest[3])
 {
 	dest[0] = dup(STDIN_FILENO);
 	dest[1] = dup(STDOUT_FILENO);
 	dest[2] = dup(STDERR_FILENO);
 }
 
-void restore_fds(int src[3])
+void	restore_fds(int src[3])
 {
 	dup2(src[0], STDIN_FILENO);
 	dup2(src[1], STDOUT_FILENO);
@@ -47,9 +47,9 @@ void	close_unused_pipes(int pipes[][2], int len, int exception_one,
 
 void	close_pipes_and_wait(t_executor_ctx *ctx)
 {
-	int		i;
-	int		status;
-	pid_t 	pid;
+	int			i;
+	int			status;
+	int			pid;
 
 	if (ctx->cmd_count > 1)
 		close_unused_pipes(ctx->pipes, ctx->cmd_count - 1, DISCARD, DISCARD);
@@ -84,4 +84,3 @@ void	setup_pipes(int pipes[][2], int pipe_count, int idx)
 		close_unused_pipes(pipes, pipe_count, pipes[idx - 1][0], pipes[idx][1]);
 	}
 }
-

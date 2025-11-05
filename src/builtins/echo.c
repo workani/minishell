@@ -30,8 +30,8 @@ static bool	should_print_no_new_line(const char *arg)
 
 int	builtin_echo(char **args)
 {
-	int i;
-	bool print_newline;
+	int			i;
+	bool		print_newline;
 
 	i = 1;
 	print_newline = true;

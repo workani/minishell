@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 16:31:05 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 17:59:32 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
 {
 	int				pipes[cmd_count - 1][2];
 	t_executor_ctx	ctx;
-	
+
 	if (cmd_count <= 0)
 		return ;
 	ctx.idx = 0;
@@ -80,8 +80,7 @@ static void	shell_loop(t_env_lst **env)
 	{
 		setup_interactive_signals();
 		if (g_signal_received == 130)
-			g_signal_received = 1;      
-
+			g_signal_received = 1;
 		line = readline(PROMPT);
 		if (!line)
 		{
@@ -98,12 +97,11 @@ static void	shell_loop(t_env_lst **env)
 		}
 		free(line);
 	}
-	
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_env_lst *env;
+	t_env_lst	*env;
 
 	(void)argc;
 	(void)argv;

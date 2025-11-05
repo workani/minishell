@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-static void execute_builtin(char **args, t_env_lst **env, bool is_child)
+static void	execute_builtin(char **args, t_env_lst **env, bool is_child)
 {
-	char *cmd;
-	int status;
+	char		*cmd;
+	int			status;
 
 	cmd = args[0];
 	if (ft_strcmp("echo", cmd) == 0)
@@ -39,9 +39,9 @@ static void execute_builtin(char **args, t_env_lst **env, bool is_child)
 
 static void	child_process(t_cmd_node *node, t_executor_ctx *ctx)
 {
-	int		exec_errno;
-	char	*full_cmd;
-	char	**envp;
+	int			exec_errno;
+	char		*full_cmd;
+	char		**envp;
 
 	setup_child_signals();
 	if (ctx->cmd_count > 1)

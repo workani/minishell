@@ -12,5 +12,13 @@
 
 #include "minishell.h"
 
-const char	*BUILTINS[] = {"echo", "cd", "pwd", "export", "unset", "env",
-		"exit", NULL};
+const char	*g_builtins[] = {
+	"echo",
+	"cd",
+	"pwd",
+	"export",
+	"unset",
+	"env",
+	"exit",
+	NULL
+};

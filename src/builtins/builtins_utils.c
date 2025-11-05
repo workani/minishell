@@ -17,9 +17,9 @@ bool	is_builtin(char *cmd)
 	int	i;
 
 	i = 0;
-	while (BUILTINS[i] != NULL)
+	while (g_builtins[i] != NULL)
 	{
-		if (ft_strcmp(cmd, BUILTINS[i]) == 0)
+		if (ft_strcmp(cmd, g_builtins[i]) == 0)
 			return (true);
 		i++;
 	}
@@ -28,7 +28,7 @@ bool	is_builtin(char *cmd)
 
 bool	is_valid_var_name(const char *var)
 {
-	int i;
+	int	i;
 
 	if (!var || (!ft_isalpha(var[0]) && var[0] != '_'))
 		return (false);

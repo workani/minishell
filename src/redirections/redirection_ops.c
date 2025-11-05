@@ -64,12 +64,12 @@ void	redir_append(char *filename)
 
 void	redir_heredoc(char *del, char *content)
 {
-	int fd[2];
+	int	fd[2];
 
 	if (!del)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-			2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd("newline'\n", 2);
 		g_signal_received = 2;
 		return ;
 	}

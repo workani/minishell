@@ -36,9 +36,9 @@ static void	expand_exit_status(char **line, t_buffer *buf)
 
 void	expand_variable(char **line, t_buffer *buf, t_env_lst *env)
 {
-	char	*var_name;
-	char	*var_value;
-	int		len;
+	char		*var_name;
+	char		*var_value;
+	int			len;
 
 	(*line)++;
 	if (**line == '?')
@@ -87,7 +87,7 @@ void	expand_variables(t_cmd_node *cmd_node, t_env_lst *env)
 
 char	*expand_line(char *line, t_env_lst *env)
 {
-	t_buffer buf;
+	t_buffer	buf;
 
 	init_buffer(&buf, ft_strlen(line) + 128);
 	while (*line)

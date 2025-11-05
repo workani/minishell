@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handlers.c                                         :+:      :+:    :+:   */
+/*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:21:44 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/04 19:22:18 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:04:10 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ void	handle_sigint_interactive(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-}
-
-void	handle_sigquit_interactive(int sig)
-{
-	(void)sig;
-	if (rl_line_buffer && rl_end > 0)
-	{
-		write(STDOUT_FILENO, "\nexit\n", 6);
-		exit(131);
-	}
 }
 
 void	handle_sigint_heredoc(int sig)

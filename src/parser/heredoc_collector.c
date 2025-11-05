@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_collector.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 17:09:39 by dklepenk          #+#    #+#             */
+/*   Updated: 2025/11/05 17:09:39 by dklepenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	append_line(char **content, char *line, t_env_lst *env)
@@ -22,13 +34,23 @@ static char	*read_heredoc_input(char *delimiter, t_env_lst *env)
 	char	*content;
 
 	content = ft_strdup("");
+	if (!content)
+		return (NULL);
 	while (1)
 	{
 		line = readline("> ");
 		if (g_signal_received == 130 || !line)
-			return (free(content), line ? free(line), NULL : NULL);
+		{
+			free(content);
+			if (line)
+				free(line);
+			return (NULL);
+		}
 		if (ft_strcmp(line, delimiter) == 0)
-			return (free(line), content);
+		{
+			free(line);
+			return (content);
+		}
 		append_line(&content, line, env);
 		free(line);
 	}
@@ -61,9 +83,7 @@ static void	collect_heredocs_recursive(t_node *node, t_env_lst *env)
 		collect_heredocs_recursive(node->u_as.pipe.right, env);
 	}
 	else if (node->type == NODE_CMD)
-	{
 		collect_cmd_heredocs(&node->u_as.cmd, env);
-	}
 }
 
 void	collect_all_heredocs(t_node *ast, t_env_lst *env)

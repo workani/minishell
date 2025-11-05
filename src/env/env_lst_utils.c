@@ -77,7 +77,8 @@ void	delete_env_node(t_env_lst **head, char *key)
 	}
 	while (current->next != NULL)
 	{
-		if (current->next->key && ft_strcmp(key, current->next->key) == 0)
+		if (current->next->key
+			&& ft_strcmp(key, current->next->key) == 0)
 		{
 			tmp = current->next;
 			current->next = current->next->next;
@@ -88,9 +89,13 @@ void	delete_env_node(t_env_lst **head, char *key)
 	}
 }
 
-void	add_or_update_env(t_env_lst **head, char *key, char *value, bool has_no_eq)
+void	add_or_update_env(
+		t_env_lst **head,
+		char *key,
+		char *value,
+		bool has_no_eq)
 {
-	t_env_lst *cur;
+	t_env_lst	*cur;
 
 	cur = *head;
 	while (cur != NULL)
