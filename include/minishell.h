@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:42:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 18:58:40 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:57:42 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include "modules/defines.h"
 # include "modules/types.h"
 # include "modules/parser.h"
+# include "modules/signals.h"
 # include "modules/executor.h"
 # include "modules/env.h"
 # include "modules/builtins.h"

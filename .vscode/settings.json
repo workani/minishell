@@ -21,7 +21,8 @@
 		"utility": "c",
 		"charconv": "c",
 		"format": "c",
-		"ratio": "c"
+		"ratio": "c",
+		"random": "c"
 	},
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/include",

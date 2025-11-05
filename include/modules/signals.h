@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                             :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 17:41:00 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 17:41:00 by dklepenk         ###   ########.fr       */
+/*   Created: 2025/11/04 19:22:56 by dklepenk          #+#    #+#             */
+/*   Updated: 2025/11/05 16:55:22 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-int	builtin_env(t_env_lst *env)
-{
-	if (!env)
-		return (SUCCESS);
-	while (env)
-	{
-		if (env->value)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	return (SUCCESS);
-}
+/* Setup signals */
+void	setup_interactive_signals(void);
+void	setup_child_signals(void);
+void	setup_parent_exec_signals(void);
+void	setup_heredoc_signals(void);
+
+/* Handle signals */
+void	handle_sigint_interactive(int sig);
+void	handle_sigint_heredoc(int sig);
+
+#endif

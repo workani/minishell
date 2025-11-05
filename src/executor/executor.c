@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 01:35:35 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:42:05 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void execute_builtin(char **args, t_env_lst **env, bool is_child)
+static void	execute_builtin(char **args, t_env_lst **env, bool is_child)
 {
-	char *cmd;
-	int status;
+	char		*cmd;
+	int			status;
 
 	cmd = args[0];
 	if (ft_strcmp("echo", cmd) == 0)
@@ -39,9 +39,9 @@ static void execute_builtin(char **args, t_env_lst **env, bool is_child)
 
 static void	child_process(t_cmd_node *node, t_executor_ctx *ctx)
 {
-	int		exec_errno;
-	char	*full_cmd;
-	char	**envp;
+	int			exec_errno;
+	char		*full_cmd;
+	char		**envp;
 
 	setup_child_signals();
 	if (ctx->cmd_count > 1)
@@ -91,12 +91,12 @@ void	execute(t_node *node, t_executor_ctx *ctx)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
-		execute(node->as.pipe.left, ctx);
-		execute(node->as.pipe.right, ctx);
+		execute(node->u_as.pipe.left, ctx);
+		execute(node->u_as.pipe.right, ctx);
 	}
 	else if (node->type == NODE_CMD)
 	{
-		execute_cmd(&node->as.cmd, ctx);
+		execute_cmd(&node->u_as.cmd, ctx);
 		ctx->idx++;
 	}
 }

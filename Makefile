@@ -27,6 +27,7 @@ INC_DIR         := include
 ENV_DIR         := $(SRC_DIR)/env
 BUILTINS_DIR    := $(SRC_DIR)/builtins
 LEXER_DIR       := $(SRC_DIR)/lexer
+SIGNALS_DIR		:= $(SRC_DIR)/signals
 PARSER_DIR      := $(SRC_DIR)/parser
 EXECUTOR_DIR    := $(SRC_DIR)/executor
 REDIRECTIONS_DIR:= $(SRC_DIR)/redirections
@@ -49,10 +50,11 @@ LDFLAGS := -L$(READLINE_PATH)/lib -lreadline -lhistory
 # ────────────────────────────
 #  Source files
 # ────────────────────────────
-MAIN_SRCS        := minishell.c utils.c signals.c
+MAIN_SRCS        := minishell.c utils.c
 ENV_SRCS         := env_lst.c env_lst_utils.c
-BUILTINS_SRCS    := builtins.c echo.c env.c exit.c pwd.c cd.c export.c unset.c builtins_utils.c
+BUILTINS_SRCS    := echo.c env.c exit.c pwd.c cd.c export.c unset.c builtins_utils.c
 LEXER_SRCS       := lexer.c lexer_utils.c token.c
+SIGNALS_SRCS	 := signals.c signal_handlers.c
 PARSER_SRCS      := parser.c parser_utils.c ast_utils.c expander.c expander_utils.c expander_str_utils.c heredoc_collector.c
 EXECUTOR_SRCS    := executor.c executor_utils.c get_cmd.c handlers.c
 REDIRECTIONS_SRCS:= redirections.c redirection_ops.c
@@ -62,6 +64,7 @@ SRCS := \
   $(addprefix $(ENV_DIR)/,$(ENV_SRCS)) \
   $(addprefix $(BUILTINS_DIR)/,$(BUILTINS_SRCS)) \
   $(addprefix $(LEXER_DIR)/,$(LEXER_SRCS)) \
+  $(addprefix $(SIGNALS_DIR)/, $(SIGNALS_SRCS)) \
   $(addprefix $(PARSER_DIR)/,$(PARSER_SRCS)) \
   $(addprefix $(EXECUTOR_DIR)/,$(EXECUTOR_SRCS)) \
   $(addprefix $(REDIRECTIONS_DIR)/,$(REDIRECTIONS_SRCS))

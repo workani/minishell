@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:25:44 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 17:01:10 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:13:18 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 bool	is_builtin(char *cmd)
 {
-	int	i;
+	int			i;
+	const char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
+		"exit", NULL};
 
 	i = 0;
 	while (builtins[i] != NULL)
@@ -28,7 +30,7 @@ bool	is_builtin(char *cmd)
 
 bool	is_valid_var_name(const char *var)
 {
-	int i;
+	int	i;
 
 	if (!var || (!ft_isalpha(var[0]) && var[0] != '_'))
 		return (false);

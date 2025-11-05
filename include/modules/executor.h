@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:06:44 by workani           #+#    #+#             */
-/*   Updated: 2025/11/05 01:35:22 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:45:41 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	setup_heredoc_signals(void);
 // Handlers
 void	handle_child_status(int status);
 void	handle_exec_errors(char *cmd, int exec_errno);
-void	handle_redirs_with_no_cmd(t_cmd_node *node,t_executor_ctx *ctx);
+void	handle_redirs_with_no_cmd(t_cmd_node *node, t_executor_ctx *ctx);
 
 // Fd helpers
 void	backup_fds(int dest[3]);

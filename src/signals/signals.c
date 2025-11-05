@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:51:53 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/05 01:21:58 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:42:57 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/readline.h>
-
-static void	handle_sigint_interactive(int sig)
-{
-	(void)sig;
-	g_signal_received = 1;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-//static void	handle_sigquit_interactive(int sig)
-//{
-//	(void)sig;
-//	if (rl_line_buffer && rl_end > 0)
-//	{
-//		write(STDOUT_FILENO, "\nexit\n", 6);
-//		exit(131);
-//	}
-//}
-
-static void	handle_sigint_heredoc(int sig)
-{
-	(void)sig;
-	g_signal_received = 130;
-	write(STDOUT_FILENO, "\n", 1);
-}
 
 void	setup_interactive_signals(void)
 {
@@ -81,8 +53,8 @@ void	setup_parent_exec_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	struct sigaction sa_heredoc;
-	struct sigaction sa_quit;
+	struct sigaction	sa_heredoc;
+	struct sigaction	sa_quit;
 
 	sigemptyset(&sa_heredoc.sa_mask);
 	sa_heredoc.sa_handler = handle_sigint_heredoc;

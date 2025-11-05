@@ -6,7 +6,7 @@
 /*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 17:34:02 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 00:53:06 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:09:46 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	delete_env_node(t_env_lst **head, char *key)
 	}
 	while (current->next != NULL)
 	{
-		if (current->next->key && ft_strcmp(key, current->next->key) == 0)
+		if (current->next->key
+			&& ft_strcmp(key, current->next->key) == 0)
 		{
 			tmp = current->next;
 			current->next = current->next->next;
@@ -88,9 +89,13 @@ void	delete_env_node(t_env_lst **head, char *key)
 	}
 }
 
-void	add_or_update_env_var(t_env_lst **head, char *key, char *value, bool has_no_eq)
+void	add_or_update_env(
+		t_env_lst **head,
+		char *key,
+		char *value,
+		bool has_no_eq)
 {
-	t_env_lst *cur;
+	t_env_lst	*cur;
 
 	cur = *head;
 	while (cur != NULL)

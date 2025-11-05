@@ -43,7 +43,7 @@ void	free_string_array(char **arr)
 
 bool	has_slash(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -77,7 +77,7 @@ void	sort_env_list(t_env_lst *env)
 	t_env_lst	*cur;
 
 	if (!env)
-		return;
+		return ;
 	cur = env;
 	while (cur->next)
 	{
@@ -85,9 +85,8 @@ void	sort_env_list(t_env_lst *env)
 		{
 			swap_env_nodes(cur, cur->next);
 			cur = env;
-			continue;
+			continue ;
 		}
 		cur = cur->next;
 	}
 }
-

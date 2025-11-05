@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp_lst.c                                          :+:      :+:    :+:   */
+/*   env_lst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:59:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/09/16 20:02:49 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:44:00 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	**env_lst_to_arr(t_env_lst *head)
 	i = 0;
 	len = get_env_lst_size(head);
 	envp = malloc((len + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
 	while (i < len && head)
 	{
 		if (head->key && head->value)
@@ -61,7 +63,8 @@ char	**env_lst_to_arr(t_env_lst *head)
 
 bool	convert_var_to_key_value_pair(char *dst[2], char *var)
 {
-	int	del_idx;
+	int		del_idx;
+	int		value_len;
 
 	del_idx = ft_cst_strchr(var, '=');
 	if (del_idx == -1)
@@ -70,8 +73,9 @@ bool	convert_var_to_key_value_pair(char *dst[2], char *var)
 		dst[1] = NULL;
 		return (false);
 	}
+	value_len = ft_strlen(var) - del_idx - 1;
 	dst[0] = ft_substr(var, 0, del_idx);
-	dst[1] = ft_substr(var, del_idx + 1, ft_strlen(var) - del_idx - 1);
+	dst[1] = ft_substr(var, del_idx + 1, value_len);
 	return (true);
 }
 
