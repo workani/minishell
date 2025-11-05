@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 19:21:31 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/21 19:21:36 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:28:04 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-const char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
+const char	*BUILTINS[] = {"echo", "cd", "pwd", "export", "unset", "env",
 		"exit", NULL};

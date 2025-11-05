@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:22:35 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/03 18:58:14 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:56:18 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,26 @@ bool	has_slash(char *str)
 	return (false);
 }
 
+static void	swap_env_nodes(t_env_lst *a, t_env_lst *b)
+{
+	char	*tmp_key;
+	char	*tmp_val;
+	bool	tmp_no_eq;
+
+	tmp_key = a->key;
+	tmp_val = a->value;
+	tmp_no_eq = a->has_no_eq;
+	a->key = b->key;
+	a->value = b->value;
+	a->has_no_eq = b->has_no_eq;
+	b->key = tmp_key;
+	b->value = tmp_val;
+	b->has_no_eq = tmp_no_eq;
+}
+
 void	sort_env_list(t_env_lst *env)
 {
 	t_env_lst	*cur;
-	char		*tmp_key;
-	char		*tmp_val;
 
 	if (!env)
 		return;
@@ -68,15 +83,11 @@ void	sort_env_list(t_env_lst *env)
 	{
 		if (ft_strcmp(cur->key, cur->next->key) > 0)
 		{
-			tmp_key = cur->key;
-			tmp_val = cur->value;
-			cur->key = cur->next->key;
-			cur->value = cur->next->value;
-			cur->next->key = tmp_key;
-			cur->next->value = tmp_val;
+			swap_env_nodes(cur, cur->next);
 			cur = env;
 			continue;
 		}
 		cur = cur->next;
 	}
 }
+

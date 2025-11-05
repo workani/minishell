@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:36:50 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/03 16:42:38 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:17:35 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_node	*parse_command(t_token **tokens)
 	t_cmd_node	*cmd_node;
 
 	node = new_cmd_node();
-	cmd_node = &node->as.cmd;
+	cmd_node = &node->u_as.cmd;
 	while (*tokens && (*tokens)->type != TOKEN_PIPE)
 	{
 		if ((*tokens)->type == TOKEN_WORD)

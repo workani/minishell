@@ -57,12 +57,12 @@ static void	collect_heredocs_recursive(t_node *node, t_env_lst *env)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
-		collect_heredocs_recursive(node->as.pipe.left, env);
-		collect_heredocs_recursive(node->as.pipe.right, env);
+		collect_heredocs_recursive(node->u_as.pipe.left, env);
+		collect_heredocs_recursive(node->u_as.pipe.right, env);
 	}
 	else if (node->type == NODE_CMD)
 	{
-		collect_cmd_heredocs(&node->as.cmd, env);
+		collect_cmd_heredocs(&node->u_as.cmd, env);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:33:40 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/04 18:12:34 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 00:21:59 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ void	close_unused_pipes(int pipes[][2], int len, int exception_one,
 	}
 }
 
-void	close_pipes_and_wait(int pipes[][2], int cmd_count)
+void	close_pipes_and_wait(t_executor_ctx *ctx)
 {
 	int		i;
 	int		status;
-	pid_t	pid;
+	pid_t 	pid;
 
-	if (cmd_count > 1)
-		close_unused_pipes(pipes, cmd_count - 1, DISCARD, DISCARD);
+	if (ctx->cmd_count > 1)
+		close_unused_pipes(ctx->pipes, ctx->cmd_count - 1, DISCARD, DISCARD);
 	setup_parent_exec_signals();
 	i = 0;
-	while (i < cmd_count)
+	while (i < ctx->cmd_count)
 	{
 		pid = wait(&status);
-		if (pid > 0)
+		if (ctx->last_pid == pid)
 			handle_child_status(status);
 		i++;
 	}

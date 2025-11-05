@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/04 19:17:16 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:17:18 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	execute_cmd(t_cmd_node *node, t_executor_ctx *ctx)
 	}
 	if (pid == 0)
 		child_process(node, ctx);
+	ctx->last_pid = pid;
 }
 
 void	execute(t_node *node, t_executor_ctx *ctx)
@@ -90,12 +91,12 @@ void	execute(t_node *node, t_executor_ctx *ctx)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
-		execute(node->as.pipe.left, ctx);
-		execute(node->as.pipe.right, ctx);
+		execute(node->u_as.pipe.left, ctx);
+		execute(node->u_as.pipe.right, ctx);
 	}
 	else if (node->type == NODE_CMD)
 	{
-		execute_cmd(&node->as.cmd, ctx);
+		execute_cmd(&node->u_as.cmd, ctx);
 		ctx->idx++;
 	}
 }
