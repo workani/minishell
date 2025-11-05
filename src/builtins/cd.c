@@ -23,6 +23,33 @@ static char	*get_home_dir(t_env_lst *env)
 	return (NULL);
 }
 
+char	*replace_pattern_in_str(char *src, char *replacement, char pattern)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	result = malloc(strlen(src) + strlen(replacement) + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (src[i])
+	{
+		if (src[i] == pattern)
+		{
+			ft_append_str(result, &j, replacement);
+			i++;
+			continue ;
+		}
+		result[j] = src[i];
+		i++;
+		j++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+
 static int	set_path_and_check_errors(
 		char **args,
 		t_env_lst *env,
@@ -43,7 +70,7 @@ static int	set_path_and_check_errors(
 		return (FAILURE);
 	}
 	else
-		*path = args[1];
+		*path = replace_pattern_in_str(args[1], get_home_dir(env), '~');
 	return (SUCCESS);
 }
 
@@ -67,5 +94,6 @@ int	builtin_cd(char **args, t_env_lst **env)
 	add_or_update_env(env, "OLDPWD", old_pwd, false);
 	if (getcwd(new_pwd, PATH_MAX))
 		add_or_update_env(env, "PWD", new_pwd, false);
+	free(path);
 	return (exit_status);
 }
