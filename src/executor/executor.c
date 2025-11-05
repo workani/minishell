@@ -6,7 +6,7 @@
 /*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:22:56 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 00:21:45 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 01:35:35 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execute_cmd(t_cmd_node *node, t_executor_ctx *ctx)
 
 	expand_variables(node, *ctx->env);
 	if (!node->args || !node->args[0])
-		return (handle_redirs_with_no_cmd(node, *ctx->env));
+		return (handle_redirs_with_no_cmd(node, ctx));
 	if (is_builtin(node->args[0]) && ctx->cmd_count == 1)
 	{
 		backup_fds(original_fds);

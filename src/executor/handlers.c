@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:50:25 by workani           #+#    #+#             */
-/*   Updated: 2025/11/04 19:19:42 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 01:36:21 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	handle_exec_errors(char *cmd, int exec_errno)
 	}
 }
 
-void	handle_redirs_with_no_cmd(t_cmd_node *node, t_env_lst *env)
+void	handle_redirs_with_no_cmd(t_cmd_node *node, t_executor_ctx *ctx)
 {
 	pid_t	pid;
 
@@ -59,8 +59,9 @@ void	handle_redirs_with_no_cmd(t_cmd_node *node, t_env_lst *env)
 		if (pid == 0)
 		{
 			setup_child_signals();
-			setup_redirections(node->redirections, env);
+			setup_redirections(node->redirections, *ctx->env);
 			exit(g_signal_received);
 		}
+		ctx->last_pid = pid;
 	}
 }
