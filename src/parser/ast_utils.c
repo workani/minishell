@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:36:24 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/03 16:59:34 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:17:28 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_node	*new_cmd_node(void)
 	if (!node)
 		return (NULL);
 	node->type = NODE_CMD;
-	cmd_node = &node->as.cmd;
+	cmd_node = &node->u_as.cmd;
 	cmd_node->args = NULL;
 	cmd_node->redirections = NULL;
 	return (node);
@@ -40,7 +40,7 @@ t_node	*new_pipe_node(t_node *left, t_node *right)
 	if (!node)
 		return (NULL);
 	node->type = NODE_PIPE;
-	pipe_node = &node->as.pipe;
+	pipe_node = &node->u_as.pipe;
 	pipe_node->left = left;
 	pipe_node->right = right;
 	return (node);
@@ -68,13 +68,13 @@ void	free_ast(t_node *node)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
-		free_ast(node->as.pipe.left);
-		free_ast(node->as.pipe.right);
+		free_ast(node->u_as.pipe.left);
+		free_ast(node->u_as.pipe.right);
 	}
 	else if (node->type == NODE_CMD)
 	{
-		free_string_array(node->as.cmd.args);
-		free_redirections(node->as.cmd.redirections);
+		free_string_array(node->u_as.cmd.args);
+		free_redirections(node->u_as.cmd.redirections);
 	}
 	free(node);
 }
@@ -87,6 +87,6 @@ int	get_cmd_count(t_node *node)
 	}
 	if (node->type == NODE_CMD)
 		return (1);
-	return (get_cmd_count(node->as.pipe.left)
-		+ get_cmd_count(node->as.pipe.right));
+	return (get_cmd_count(node->u_as.pipe.left)
+		+ get_cmd_count(node->u_as.pipe.right));
 }

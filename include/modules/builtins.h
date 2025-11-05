@@ -6,7 +6,7 @@
 /*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 13:07:32 by workani           #+#    #+#             */
-/*   Updated: 2025/11/03 15:04:24 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:28:42 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdbool.h>
 
 /* Alias to keep legacy name while using g_ naming */
-# define builtins g_builtins
+# define BUILTINS g_builtins
 
 // Builtin utilities
 bool	is_builtin(char *cmd);

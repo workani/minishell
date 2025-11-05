@@ -50,8 +50,8 @@ int	builtin_cd(char **args, t_env_lst **env)
 		perror(path);
 		exit_status = FAILURE;
 	}
-	add_or_update_env_var(env, "OLDPWD", old_pwd, false);
+	add_or_update_env(env, "OLDPWD", old_pwd, false);
 	if (getcwd(new_pwd, PATH_MAX))
-		add_or_update_env_var(env, "PWD", new_pwd, false);
+		add_or_update_env(env, "PWD", new_pwd, false);
 	return (exit_status);
 }

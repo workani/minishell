@@ -6,7 +6,7 @@
 /*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:48:57 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 00:21:22 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 16:26:43 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 
 extern const char	*g_builtins[];
 
-
-
 typedef struct s_env_lst
 {
-	char			*key;
-	char			*value;
-	bool			has_no_eq;
+	char				*key;
+	char				*value;
+	bool				has_no_eq;
 	struct s_env_lst	*next;
 }	t_env_lst;
-
 
 typedef struct s_executor_ctx
 {
@@ -35,7 +32,6 @@ typedef struct s_executor_ctx
 	int			idx;
 }	t_executor_ctx;
 
-
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -44,40 +40,37 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
-}				t_token_type;
+}	t_token_type;
 
 /* token structs */
 typedef struct s_token
 {
 	t_token_type	type;
-	char	*value;
+	char			*value;
 	struct s_token	*next;
 }	t_token;
-
-/* enum for redirection */
-typedef t_token_type	t_redir_type;
 
 /* enum for node types */
 typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE
-}				t_node_type;
+}	t_node_type;
 
 /* redirection */
 typedef struct s_redir
 {
-	t_redir_type	type;
-	char	*filename;
-	char	*heredoc_content;
+	t_token_type	type;
+	char			*filename;
+	char			*heredoc_content;
 	struct s_redir	*next;
 }	t_redir;
 
 /* node for simple commands */
 typedef struct s_cmd_node
 {
-	char		**args;
-	t_redir		*redirections;
+	char	**args;
+	t_redir	*redirections;
 }	t_cmd_node;
 
 /* node for pipes */
@@ -91,11 +84,11 @@ typedef struct s_pipe_node
 typedef struct s_node
 {
 	t_node_type	type;
-	union u_node_value
+	union
 	{
 		t_cmd_node	cmd;
 		t_pipe_node	pipe;
-	} as;
+	}	u_as;
 }	t_node;
 
 /* Buffer for expander */
@@ -105,6 +98,5 @@ typedef struct s_buffer
 	size_t	len;
 	size_t	capacity;
 }	t_buffer;
-
 
 #endif

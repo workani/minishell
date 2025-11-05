@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:25:44 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/10/28 17:01:10 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:28:09 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ bool	is_builtin(char *cmd)
 	int	i;
 
 	i = 0;
-	while (builtins[i] != NULL)
+	while (BUILTINS[i] != NULL)
 	{
-		if (ft_strcmp(cmd, builtins[i]) == 0)
+		if (ft_strcmp(cmd, BUILTINS[i]) == 0)
 			return (true);
 		i++;
 	}
