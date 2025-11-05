@@ -52,7 +52,7 @@ LDFLAGS := -L$(READLINE_PATH)/lib -lreadline -lhistory
 # ────────────────────────────
 MAIN_SRCS        := minishell.c utils.c
 ENV_SRCS         := env_lst.c env_lst_utils.c
-BUILTINS_SRCS    := builtins.c echo.c env.c exit.c pwd.c cd.c export.c unset.c builtins_utils.c
+BUILTINS_SRCS    := echo.c env.c exit.c pwd.c cd.c export.c unset.c builtins_utils.c
 LEXER_SRCS       := lexer.c lexer_utils.c token.c
 SIGNALS_SRCS	 := signals.c signal_handlers.c
 PARSER_SRCS      := parser.c parser_utils.c ast_utils.c expander.c expander_utils.c expander_str_utils.c heredoc_collector.c

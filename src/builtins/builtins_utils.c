@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:25:44 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 16:28:09 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:13:18 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 bool	is_builtin(char *cmd)
 {
-	int	i;
+	int			i;
+	const char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
+		"exit", NULL};
 
 	i = 0;
-	while (g_builtins[i] != NULL)
+	while (builtins[i] != NULL)
 	{
-		if (ft_strcmp(cmd, g_builtins[i]) == 0)
+		if (ft_strcmp(cmd, builtins[i]) == 0)
 			return (true);
 		i++;
 	}

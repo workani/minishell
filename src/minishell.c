@@ -6,7 +6,7 @@
 /*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:15:39 by dklepenk          #+#    #+#             */
-/*   Updated: 2025/11/05 17:59:32 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 18:37:24 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 volatile sig_atomic_t	g_signal_received = 0;
 
-static void	create_pipes(int pipes[][2], int cmd_count)
+static void	create_pipes(t_executor_ctx *ctx, int pipes_count)
 {
 	int	i;
+	int	(*pipes)[2];
 
 	i = 0;
-	while (i < cmd_count - 1)
+	pipes = malloc(sizeof(*pipes) * pipes_count);
+	while (i < pipes_count)
 	{
 		if (pipe(pipes[i]) == -1)
 		{
@@ -28,24 +30,25 @@ static void	create_pipes(int pipes[][2], int cmd_count)
 		}
 		i++;
 	}
+	ctx->pipes = pipes;
 }
 
 static void	execute_ast(t_node *ast, int cmd_count, t_env_lst **env)
 {
-	int				pipes[cmd_count - 1][2];
 	t_executor_ctx	ctx;
 
 	if (cmd_count <= 0)
 		return ;
 	ctx.idx = 0;
 	ctx.env = env;
-	ctx.pipes = pipes;
+	ctx.pipes = NULL;
 	ctx.last_pid = 0;
 	ctx.cmd_count = cmd_count;
 	if (cmd_count > 1)
-		create_pipes(pipes, cmd_count);
+		create_pipes(&ctx, cmd_count - 1);
 	execute(ast, &ctx);
 	close_pipes_and_wait(&ctx);
+	free(ctx.pipes);
 }
 
 static void	process_line(char *line, t_env_lst **env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:33:40 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/05 00:21:59 by workani          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:36:59 by dklepenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	close_pipes_and_wait(t_executor_ctx *ctx)
 			handle_child_status(status);
 		i++;
 	}
+	i = 0;
 	setup_interactive_signals();
 }
 
