@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dklepenk <dklepenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: workani <workani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:51:53 by mbondare          #+#    #+#             */
-/*   Updated: 2025/11/04 15:33:24 by dklepenk         ###   ########.fr       */
+/*   Updated: 2025/11/05 01:21:58 by workani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static void	handle_sigint_interactive(int sig)
 	rl_redisplay();
 }
 
-static void	handle_sigquit_interactive(int sig)
-{
-	(void)sig;
-	if (rl_line_buffer && rl_end > 0)
-	{
-		write(STDOUT_FILENO, "\nexit\n", 6);
-		exit(131);
-	}
-}
+//static void	handle_sigquit_interactive(int sig)
+//{
+//	(void)sig;
+//	if (rl_line_buffer && rl_end > 0)
+//	{
+//		write(STDOUT_FILENO, "\nexit\n", 6);
+//		exit(131);
+//	}
+//}
 
 static void	handle_sigint_heredoc(int sig)
 {
@@ -43,16 +43,16 @@ static void	handle_sigint_heredoc(int sig)
 void	setup_interactive_signals(void)
 {
 	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
+	struct sigaction	sa_ignore;
 
+	sigemptyset(&sa_ignore.sa_mask);
+	sa_ignore.sa_handler = SIG_IGN;
+	sa_ignore.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_ignore, NULL);
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = handle_sigint_interactive;
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = handle_sigquit_interactive;
-	sa_quit.sa_flags = 0;
-	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
 void	setup_child_signals(void)

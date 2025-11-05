@@ -48,7 +48,7 @@ char	**env_lst_to_arr(t_env_lst *head)
 	envp = malloc((len + 1) * sizeof(char *));
 	while (i < len && head)
 	{
-		if (head->key)
+		if (head->key && head->value)
 		{
 			envp[i] = combine_key_value(head);
 			i++;
