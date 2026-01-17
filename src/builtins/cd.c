@@ -55,14 +55,17 @@ static int	set_path_and_check_errors(
 		t_env_lst *env,
 		char **path)
 {
+	char	*home;
+
 	if (!args[1])
 	{
-		*path = get_home_dir(env);
-		if (!(*path))
+		home = get_home_dir(env);
+		if (!home)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
 			return (FAILURE);
 		}
+		*path = ft_strdup(home);
 	}
 	else if (args[2])
 	{
@@ -70,7 +73,12 @@ static int	set_path_and_check_errors(
 		return (FAILURE);
 	}
 	else
-		*path = replace_pattern_in_str(args[1], get_home_dir(env), '~');
+	{
+		home = get_home_dir(env);
+		if (!home)
+			home = "";
+		*path = replace_pattern_in_str(args[1], home, '~');
+	}
 	return (SUCCESS);
 }
 

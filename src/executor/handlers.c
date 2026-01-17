@@ -30,10 +30,13 @@ void	handle_child_status(int status)
 
 void	handle_exec_errors(char *cmd, int exec_errno)
 {
-	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR))
+	if (cmd && (exec_errno == EACCES || exec_errno == EISDIR
+			|| (has_slash(cmd) && exec_errno == ENOENT)))
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", cmd,
 			strerror(exec_errno));
+		if (exec_errno == ENOENT)
+			exit(127);
 		exit(126);
 	}
 	else

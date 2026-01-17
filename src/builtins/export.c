@@ -25,11 +25,25 @@ static void	print_env(t_env_lst *head)
 	while (head != NULL)
 	{
 		if (head->has_no_eq)
-			printf("declare -x %s\n", head->key);
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(head->key, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		else if (head->value)
-			printf("declare -x %s=\"%s\"\n", head->key, head->value);
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(head->key, 1);
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(head->value, 1);
+			ft_putstr_fd("\"\n", 1);
+		}
 		else
-			printf("declare -x %s=\"\"\n", head->key);
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(head->key, 1);
+			ft_putstr_fd("=\"\"\n", 1);
+		}
 		head = head->next;
 	}
 }

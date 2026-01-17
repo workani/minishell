@@ -28,7 +28,8 @@ int	builtin_pwd(void)
 		free(cwd);
 		return (FAILURE);
 	}
-	printf("%s\n", cwd);
+	ft_putstr_fd(cwd, 1);
+	ft_putstr_fd("\n", 1);
 	free(cwd);
 	return (SUCCESS);
 }

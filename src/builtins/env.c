@@ -19,7 +19,12 @@ int	builtin_env(t_env_lst *env)
 	while (env)
 	{
 		if (env->value)
-			printf("%s=%s\n", env->key, env->value);
+		{
+			ft_putstr_fd(env->key, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(env->value, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		env = env->next;
 	}
 	return (SUCCESS);

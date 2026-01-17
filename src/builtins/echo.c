@@ -42,12 +42,12 @@ int	builtin_echo(char **args)
 	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
 	if (print_newline)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (SUCCESS);
 }
